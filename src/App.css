@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@font-face {
+  
+  font-family: 'Istok Web';
+  src: url('./assets/Istok_Web/IstokWeb-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-istok: Istok Web, sans-serif;
+}
+
+
+#root {
+  margin: 0 0;
+  text-align: center;
+}
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  
+  
+}
+
+body {
+  -webkit-text-size-adjust: none; /* Disables text size adjustment in WebKit browsers */
+  text-size-adjust: none; /* Standard property for other browsers */
+}
+
+.section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.pulse-custom {
+  animation: pulse 1s cubic-bezier(0.4, 0, 0.8, 1);
+}
+
+/* NAVBAR TEXT STYLING */
+.navbar-text {
+  font-family: var(--font-istok);
+  font-size: 1.5rem;
+  width: 15%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+  --tw-tracking: var(--tracking-widest);
+  letter-spacing: var(--tracking-widest);
+}
+@property --tw-tracking {
+    syntax: "*";
+    inherits: false;
+}
+.navbar-text:hover {
+  cursor: pointer;
+}

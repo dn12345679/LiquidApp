@@ -1,0 +1,47 @@
+[
+    {   
+        "article-main-id": 0,
+        "main-article": "Introduction",
+        "sub-articles":  [
+            {
+                "article-id": 0,
+                "subarticle": "What is the purpose of this tool?",
+                "content": [
+                    "The purpose of this tool is to create examples of visualizations and tools that are commonly used to help traders analyze performance of a certain stock.",
+                    "In this tool, you will find a variety of customizable options to view information about certain stocks that range from price histories to sentiment analyses and forecasting",
+                    "This tool is not responsible for decisions made by the user, and it only serves to visualize existing information."
+                ]
+            },
+            {
+                "article-id": 1,
+                "subarticle": "Related Tools",
+                "content": [
+                    "The core of this website is based on yFinance and BeautifulSoup4. Supplementary content listed here. Example test example test setetste et etetsetse tset;asef",
+                    "I guess theres stuff here"
+                ]
+            }
+        ]
+    },
+    {
+        "article-main-id": 1,
+        "main-article": "Graph Options",
+        "sub-articles": [
+            {
+                "article-id": 0,
+                "subarticle": "5 Day Chart",
+                "content": [
+                    "This plot contains information ",
+                    "isnt this kind of cool?"
+                ]
+            },
+            {
+                "article-id": 1, 
+                "subarticle": "Stock change graph",
+                "content": [
+                    "You can see relative change as well as overall change here",
+                    "Thats kinda useful"
+                ]
+            }
+        ]
+    }
+]
