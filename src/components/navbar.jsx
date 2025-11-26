@@ -9,9 +9,9 @@ import {AnimatePresence, motion } from "framer-motion"
 function Navbar({currentSectionIndex}) {
     const [openState, setOpenState] = useState(true);
 
-
+``
     return (
-        <nav id="navbar" className={`fixed top-0 left-0 h-[9vh]  ${openState ? "w-full" : "w-fit"}`}>
+        <nav id="navbar" className={`fixed top-0 left-0 h-[9vh] z-999 ${openState ? "w-full" : "w-fit"}`}>
             <div id="navbar-top-background-box-white" className="absolute w-full h-full backdrop-blur-1xl bg-[#FFFFFF]/1
                     flex flex-row justify-around">
                 <motion.button  whileTap={{scale: 0.95}} onClick={() => setOpenState(!openState)} className={`md:hover:cursor-pointer w-fit h-fit z-10 aboslute left-0 ${currentSectionIndex !== 0 ? "text-white" : "text-black"}`}>
@@ -31,12 +31,12 @@ function Navbar({currentSectionIndex}) {
                                     <a href="#homepage-section-2" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
                                         <p>About</p>
                                     </a>
-                                    <li href="#homepage-section-1" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
+                                    <a href="#homepage-section-1" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
                                         <p >Home</p>
-                                    </li>
-                                    <li href="#homepage-section-3" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
+                                    </a>
+                                    <a href="#homepage-section-3" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
                                         <p>Resources</p>
-                                    </li>
+                                    </a>
                                 </ul>
                             </motion.div>
                         )

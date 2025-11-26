@@ -34,7 +34,8 @@
 
 html {
   scroll-snap-type: y mandatory;
-  
+  overflow-x: hidden;
+  scroll-behavior: smooth;
   
 }
 
@@ -66,7 +67,8 @@ body {
 .navbar-text {
   font-family: var(--font-istok);
   font-size: 1.5rem;
-  width: 15%;
+  width: fit-content;
+  padding: 1rem;
   height: 100%;
   display: flex;
   align-items: center;
@@ -76,6 +78,7 @@ body {
   transition-timing-function: ease-in-out;
   --tw-tracking: var(--tracking-widest);
   letter-spacing: var(--tracking-widest);
+  border-radius: 1rem;
 }
 @property --tw-tracking {
     syntax: "*";

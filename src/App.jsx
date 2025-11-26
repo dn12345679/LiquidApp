@@ -105,6 +105,26 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const { scrollYProgress } = useScroll();
   
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const sectionIndex = sectionsRef.current.indexOf(entry.target)
+          setCurrentPage(sectionIndex)
+        }
+      })
+    },
+    { threshold: 0.5 } 
+  )
+
+  sectionsRef.current.forEach((section) => {
+    if (section) observer.observe(section)
+  })
+
+  return () => observer.disconnect()
+}, [])
+
   return (
     <div id="homepage" className="overflow-x-clip absolute ">
       
@@ -117,19 +137,19 @@ function App() {
         </div>
         
         <div id="section-content" >
-          <motion.div onViewportEnter={() => setCurrentPage(0)} ref={(el) => (sectionsRef.current[0] = el)} id="homepage-section-1" 
+          <motion.div ref={(el) => (sectionsRef.current[0] = el)} id="homepage-section-1" 
                 className='section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal'>
             <SearchBar/>      
           </motion.div>
-          <motion.div  onViewportEnter={() => setCurrentPage(1)} ref={(el) => (sectionsRef.current[1] = el)} id="homepage-section-2" 
-                className='section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal'>
+          <motion.div  ref={(el) => (sectionsRef.current[1] = el)} id="homepage-section-2" 
+                className='section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal pb-50'>
             <div className='h-fit [scroll-snap-align:start_end]'>
               <AboutPage/>
             </div>
             
           </motion.div>
-          <motion.div onViewportEnter={() => setCurrentPage(2)} ref = {(el)=> (sectionsRef.current[2] = el)} id = "homepage-section-3" 
-                className = 'section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal'>
+          <motion.div ref = {(el)=> (sectionsRef.current[2] = el)} id = "homepage-section-3" 
+                className = 'section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal pb-50'>
             <div className='h-screen [scroll-snap-align:start_end]'>
               <GuidePage/>
             </div>
