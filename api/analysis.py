@@ -28,7 +28,9 @@ def test(param):
     dat = yf.Ticker("AAPL")
     return dat.info
 
-
+def title_card(ticker):
+    dat = yf.Ticker(ticker)
+    return 
 
 def analysis_nltk(df):
     '''

@@ -68,7 +68,7 @@ body {
   font-family: var(--font-istok);
   font-size: 1.5rem;
   width: fit-content;
-  padding: 1rem;
+
   height: 100%;
   display: flex;
   align-items: center;
@@ -86,4 +86,19 @@ body {
 }
 .navbar-text:hover {
   cursor: pointer;
+}
+
+.underline-effect::after {
+  content: ' ';
+  position: absolute;
+  height: 5px;
+  left: auto;
+  right: auto;
+  bottom: 0;
+  width: 0%;
+
+  transition: width .2s;
+}
+.underline-effect:hover::after {
+  width: 15%
 }

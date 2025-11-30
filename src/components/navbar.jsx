@@ -28,14 +28,14 @@ function Navbar({currentSectionIndex}) {
                                 transition={{duration: 0.3}}
                                 className = "flex-1">
                                 <ul id="navbar-link-text-route" className="w-[50vw] h-full ml-[25vw] flex flex-col md:flex-row justify-around items-center absolute">
-                                    <a href="#homepage-section-2" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
+                                    <a href="#homepage-section-2" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
                                         <p>About</p>
                                     </a>
-                                    <a href="#homepage-section-1" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
+                                    <a href="#homepage-section-1" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
                                         <p >Home</p>
                                     </a>
-                                    <a href="#homepage-section-3" className={`navbar-text ${currentSectionIndex !== 0 ? "text-white md:hover:bg-[#0e1111]" : "text-black md:hover:bg-amber-100"}`}>
-                                        <p>Resources</p>
+                                    <a href="#homepage-section-3" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
+                                        <p >Resources</p>
                                     </a>
                                 </ul>
                             </motion.div>

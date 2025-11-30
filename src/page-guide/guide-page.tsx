@@ -28,7 +28,7 @@ function List({title, chapters, selected, onSelect}: {title: String, chapters: S
                 <div>
                     <div className="text-[2rem]">{title}</div>
                 </div>
-                <motion.div className="border-l-2 border-amber-50 text-start p-3.5 pb-5 text-[1.5rem] h-[300px] text-nowrap overflow-y-auto
+                <motion.div className="border-l-2 border-amber-50 text-start p-3.5 pb-5 text-[2dvmin] h-[300px] text-nowrap overflow-y-auto
                                 overscroll-contain">
                     <SlideIn duration={0.8} delay={0.1}>
                         {chapters.map(text => (
@@ -52,12 +52,12 @@ function List({title, chapters, selected, onSelect}: {title: String, chapters: S
 
 function MainTextPanel({text}: {text: String[] | undefined}) {
     return (
-        <motion.div className="flex items-start justify-start overflow-y-auto mask-b-from-80% mask-b-to-110%">
+        <motion.div className="flex items-start justify-start overflow-y-auto mask-b-from-50% mask-b-to-110%">
             <div className="max-w-[70%] max-h-[60vh] ">
                 {
                     
                     text!.map((t,i) => (
-                        <motion.div key={i} layoutRoot animate={{opacity: 0.5}} transition={{ease: "linear", layout: {duration: 0.3}}} className="text-[2em] text-left font-istok pb-20">{t}</motion.div>
+                        <motion.div key={i} layoutRoot animate={{opacity: 0.5}} transition={{ease: "linear", layout: {duration: 0.3}}} className="text-[2vmin] text-left font-istok pb-20">{t}</motion.div>
                     ))
                     
                 }
@@ -94,11 +94,11 @@ function GuidePage() {
     
     return (
         <div className = "relative h-screen w-screen flex overflow-hidden">
-            <div id="GuideLeft" className="p-45 ">
+            <div id="GuideLeft" className="p-[13dvmin] ">
                 <List title="Articles" chapters={guidejson.map(article => article["main-article"])} selected={currentSelection} onSelect={changeArticle}></List>
             </div>
             <div id="GuideCenter" className = "flex-col w-full pt-25">
-                <div className = "relative pb-30 left-auto">
+                <div className = "relative pb-[10%] left-auto">
                     <SlideIn duration={0.8} delay = {0.5}>
                         <TitleTextPanel text={selectedArticleJson["main-article"]}></TitleTextPanel>
                     </SlideIn>
@@ -115,7 +115,7 @@ function GuidePage() {
                 </div>
             </div>
 
-            <div id="GuideRight" className="right-0 p-45 w-fit">
+            <div id="GuideRight" className="right-0 p-[13dvmin] w-fit">
                 <List title="Contents" chapters={
                     guidejson.find(article => article["article-main-id"] === currentSelection)?.["sub-articles"].map(sub => sub.subarticle) || []
                 }
