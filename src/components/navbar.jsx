@@ -6,7 +6,7 @@ import {AnimatePresence, motion } from "framer-motion"
 
 
 
-function Navbar({currentSectionIndex}) {
+function Navbar({currentSectionIndex, visible_tabs = [0, 1, 2]}) {
     const [openState, setOpenState] = useState(true);
 
 ``
@@ -15,7 +15,7 @@ function Navbar({currentSectionIndex}) {
             <div id="navbar-top-background-box-white" className="absolute w-full h-full backdrop-blur-1xl bg-[#FFFFFF]/1
                     flex flex-row justify-around">
                 <motion.button  whileTap={{scale: 0.95}} onClick={() => setOpenState(!openState)} className={`md:hover:cursor-pointer w-fit h-fit z-10 aboslute left-0 ${currentSectionIndex !== 0 ? "text-white" : "text-black"}`}>
-                    <Logo></Logo>
+                    <Logo theme = {currentSectionIndex}></Logo>
                 </motion.button>
                 
                 <AnimatePresence mode="wait">
@@ -28,15 +28,23 @@ function Navbar({currentSectionIndex}) {
                                 transition={{duration: 0.3}}
                                 className = "flex-1">
                                 <ul id="navbar-link-text-route" className="w-[50vw] h-full ml-[25vw] flex flex-col md:flex-row justify-around items-center absolute">
-                                    <a href="#homepage-section-2" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
-                                        <p>About</p>
-                                    </a>
-                                    <a href="#homepage-section-1" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
+                                    
+                                    {
+                                        visible_tabs.includes(0) && <a href="#homepage-section-2" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
+                                                <p>About</p>
+                                            </a>
+                                    }
+                                    {
+                                    visible_tabs.includes(1) && <a href="#homepage-section-1" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
                                         <p >Home</p>
                                     </a>
-                                    <a href="#homepage-section-3" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
-                                        <p >Resources</p>
-                                    </a>
+                                    }
+                                    {
+                                        visible_tabs.includes(2) && 
+                                        <a href="#homepage-section-3" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>
+                                            <p >Resources</p>
+                                        </a>
+                                    }
                                 </ul>
                             </motion.div>
                         )

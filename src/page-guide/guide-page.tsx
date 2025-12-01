@@ -28,7 +28,7 @@ function List({title, chapters, selected, onSelect}: {title: String, chapters: S
                 <div>
                     <div className="text-[2rem]">{title}</div>
                 </div>
-                <motion.div className="border-l-2 border-amber-50 text-start p-3.5 pb-5 text-[2dvmin] h-[300px] text-nowrap overflow-y-auto
+                <motion.div className="border-l-2 border-amber-50 text-start p-3.5 pb-5 text-[150%] h-[300px] text-nowrap overflow-y-auto
                                 overscroll-contain">
                     <SlideIn duration={0.8} delay={0.1}>
                         {chapters.map(text => (

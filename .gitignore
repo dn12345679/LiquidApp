@@ -24,8 +24,9 @@ dist-ssr
 *.sw?
 api/experiment.ipynb
 
+**.git
 
 **/venv/
 
 
-**/.env/.env
+**/.env

@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "api:linux": "cd api && venv/bin/flask run --no-debugger",
-    "api:windows": "cd api && venv\\Scripts\\flask run --no-debugger"
+    "api:windows": "cd api && .venv\\Scripts\\flask run --no-debugger"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
