@@ -24,8 +24,15 @@ dist-ssr
 *.sw?
 api/experiment.ipynb
 
+**.git
 
 **/venv/
 **/__pycache__/
 
-**/.env/
+
+**/.env
+**/.venv/
+**.env
+
+*.pyc
+*.pyo

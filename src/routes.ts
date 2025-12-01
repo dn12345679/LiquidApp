@@ -1,3 +1,3 @@
 export const ROUTES = {
-    visualinfopage: "../page-visualinfo/visuainfo-page"
+    visualinfopage: "/src/page-visualinfo/visuainfo-page"
 };

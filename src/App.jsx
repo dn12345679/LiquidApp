@@ -4,6 +4,9 @@ import { SearchBar, Navbar } from './components'
 import AboutPage from './page-about/about-page'
 import GuidePage from './page-guide/guide-page'
 import './App.css'
+import { Navigate, useNavigate, Route } from 'react-router-dom'
+import { ROUTES } from './routes'
+import VisualInfo from './page-visualinfo/visualinfo-page'
 
 /*
   Handles background element transitioning
@@ -105,27 +108,50 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const { scrollYProgress } = useScroll();
   
-useEffect(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionIndex = sectionsRef.current.indexOf(entry.target)
-          setCurrentPage(sectionIndex)
-        }
-      })
-    },
-    { threshold: 0.5 } 
-  )
 
-  sectionsRef.current.forEach((section) => {
-    if (section) observer.observe(section)
-  })
+  const navigate = useNavigate();
 
-  return () => observer.disconnect()
-}, [])
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionIndex = sectionsRef.current.indexOf(entry.target)
+            setCurrentPage(sectionIndex)
+          }
+        })
+      },
+      { threshold: 0.5 } 
+    )
+
+    sectionsRef.current.forEach((section) => {
+      if (section) observer.observe(section)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  async function runModel(ticker) {
+      const res = await fetch(`/api/run?ticker=${encodeURIComponent(ticker)}`);
+      if (!res.ok) {
+          throw new Error("Failed to fetch info");
+      }
+      const data = await res.json();
+      console.log(data)
+      return data;
+  }
+ 
+  // callback SearchBar.tsx
+  const handleSearchSubmit = (query) => {
+    console.log(query);
+
+    // DONT FORGET TO HANDLE VALIDATION OF STOCK SEARCH
+    navigate('/page-visualinfo');
+
+  }
 
   return (
+    
     <div id="homepage" className="overflow-x-clip absolute ">
       
       <AppBackground scrollYProgress={scrollYProgress}/>
@@ -139,7 +165,7 @@ useEffect(() => {
         <div id="section-content" >
           <motion.div ref={(el) => (sectionsRef.current[0] = el)} id="homepage-section-1" 
                 className='section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal'>
-            <SearchBar/>      
+            <SearchBar onSubmit={handleSearchSubmit}/>      
           </motion.div>
           <motion.div  ref={(el) => (sectionsRef.current[1] = el)} id="homepage-section-2" 
                 className='section h-screen min-w-dvw [scroll-snap-align:start_end] snap-normal pb-50'>
@@ -157,6 +183,7 @@ useEffect(() => {
           </motion.div>
         </div>
       </div>
+      
     </div>
   )
 }

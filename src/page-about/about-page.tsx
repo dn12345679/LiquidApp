@@ -78,7 +78,7 @@ function AboutPage(){
             <div className="origin-bottom-left absolute bottom-[90vh] rotate-90 font-istok h-fit w-[90vh] mask-l-from-60% mask-l-to-100% mask-r-from-60% mask-r-to-100%">
                 {
                   textContent.map((t, i) => (
-                    currentSlide === i && <ParallaxText baseVelocity={-5}>{t}</ParallaxText>
+                    currentSlide === i && <ParallaxText key={i} baseVelocity={-5}>{t}</ParallaxText>
                   ))
                 }
                 
@@ -88,7 +88,7 @@ function AboutPage(){
                 {
                   imageContent.map((item, i) => (
                     currentSlide === i && 
-                    <AnimatePresence mode = "wait">
+                    <AnimatePresence mode = "wait" key = {i}>
                       <motion.li 
                         key = {i}
                         initial={{ y: 10, opacity: 0 }}
