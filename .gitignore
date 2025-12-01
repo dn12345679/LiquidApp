@@ -30,3 +30,8 @@ api/experiment.ipynb
 
 
 **/.env
+**/.venv/
+**.env
+
+*.pyc
+*.pyo

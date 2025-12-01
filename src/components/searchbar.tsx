@@ -23,7 +23,7 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
     return (
 
         <div className="relative origin-center items-center justify-between w-[39vw] h-[10vh] bg-white/52 left-[50vw] transform -translate-x-1/2 top-[50vh] rounded-[50px] drop-shadow-lg backdrop-blur-lg
-                        flex flex-row ">
+                        flex flex-row z-999">
             <form onSubmit={handleSubmit} className="w-full h-full rounded-[50px] flex items-center justify-between">
                 <label className="text-[1.0vw] ml-[5%] h-full w-[70%] tracking-wide text-black text-left flex justify-center">
                     <input id="search-query-box" type="search"  

@@ -107,8 +107,10 @@ function App() {
   const sectionsRef = useRef([]);
   const [currentPage, setCurrentPage] = useState(0);
   const { scrollYProgress } = useScroll();
-  const navigate = useNavigate();
   
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -142,10 +144,14 @@ function App() {
   // callback SearchBar.tsx
   const handleSearchSubmit = (query) => {
     console.log(query);
+
+    // DONT FORGET TO HANDLE VALIDATION OF STOCK SEARCH
     navigate('/page-visualinfo');
+
   }
 
   return (
+    
     <div id="homepage" className="overflow-x-clip absolute ">
       
       <AppBackground scrollYProgress={scrollYProgress}/>

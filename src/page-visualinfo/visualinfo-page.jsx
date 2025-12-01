@@ -9,8 +9,12 @@ import '../App.css'
 
 function DisplayModelSimple() {
     return(
-        <section id="Simple-Model-Components" className="pl-[20%]">
-            <TitleCard ></TitleCard>
+        <section id="Simple-Model-Components" className="pl-[20%] absolute">
+            <TitleCard/>
+            <TitleCard/>
+            <TitleCard/>
+            <TitleCard/>
+            <TitleCard/>
         </section>
        
     )
@@ -31,23 +35,24 @@ function VisualInfo() {
 
     return (
         <section id = "visualinfo" className = "w-full h-full overflow-y-scroll">
-            <Link to="/">
+            <Link to="/" className='fixed left-5 z-10'>
                 <Logo theme={0}></Logo>
             </Link>
-            <motion.div className="w-screen h-screen flex-row" style={{
+            <motion.div className="w-screen h-screen flex-row fixed z-0" style={{
                 background: 
                     `linear-gradient(${rotateVal}, rgb(${Math.round(fromR)}, ${Math.round(fromG)}, ${Math.round(fromB)}), 
                         rgb(${Math.round(toR)}, ${Math.round(toG)}, ${Math.round(toB)}))`
                     
             }}>
+            </motion.div>
+            <div>
                 {
                     DisplayModelSimple()
                 }
-                <div className='absolute bottom-[60%]'>
-                    <SearchBar hintString='Anything else?'/>
-                </div>
-            </motion.div>
-            
+            </div>
+            <div className='fixed top-[30%] z-50'>
+                <SearchBar hintString='Anything else?'/>
+            </div>
         </section>
 
 
