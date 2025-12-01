@@ -8,10 +8,12 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "api": "cd api && venv\\Scripts\\flask run --no-debugger"
+    "api:linux": "cd api && venv/bin/flask run --no-debugger",
+    "api:windows": "cd api && venv\\Scripts\\flask run --no-debugger"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
+    "flask": "^0.2.10",
     "motion": "^12.23.24",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
