@@ -1,14 +1,23 @@
 import time 
-from flask import request, jsonify, Flask
+from flask import request, jsonify, Flask, current_app
 
 import json
+import numpy as np
+import pandas as pd
 import analysis # custom script
 
-
+import os
+from pathlib import Path
 
 app = Flask(__name__)
 
-model = 'none'
+model = 'Simple'
+csv_path = os.path.join(current_app.root_path, "api", "nasdaqlisted.txt")
+validate_table = pd.read_csv(csv_path, delimiter="|")
+# d
+
+# for validating input
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
@@ -26,7 +35,19 @@ def validate_ticker(ticker):
         is valid, or if it can be translated automatically (ie: "BOEING" = "NYSE: BA" = "BA").
     Otherwise, returns false
     '''
-    return
+    
+    return autocomplete(ticker) != False
+
+@app.route('/api/autocomplete')
+def autocomplete(ticker):
+    '''
+    Given any string from the parameter 'ticker'
+        Returns a list of up to the first 5 stocks that contain that Symbol.
+        If there are no stocks that satisfy, then return 'False'
+    
+    :ticker: String representing a ticker or Symbol of a given stock.
+    '''
+    return validate_table.head()
 
 ## methods
 

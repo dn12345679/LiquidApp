@@ -7,11 +7,11 @@ import VisualInfo from '../page-visualinfo/visualinfo-page.jsx';
 
 // !important: make sure to have onSubmit implemented in parent script
 function SearchBar({onSubmit, hintString = "What are you interested in today?"} : {onSubmit: any, hintString: string}){
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState("Null");
 
     const hasText = !!searchQuery.trim().length;
     
-    // request from api
+    //
     const handleSubmit = (e: FormEvent | null) => {
         e?.preventDefault(); // stop page refresh
         onSubmit(searchQuery); // lift state

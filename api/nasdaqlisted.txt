@@ -240,7 +240,9 @@ AMD|Advanced Micro Devices, Inc. - Common Stock|Q|N|N|100|N|N
 AMDD|Direxion Daily AMD Bear 1X Shares|G|N|N|100|Y|N
 AMDG|Leverage Shares 2X Long AMD Daily ETF|G|N|N|100|Y|N
 AMDL|GraniteShares 2x Long AMD Daily ETF|G|N|N|100|Y|N
-AMDU|Defiance Leveraged Long + Income AMD ETF|G|N|N|100|Y|N
+AMDU|Defiance Leveraged Long + Income async function validate(ticker) {
+    
+  } AMD ETF|G|N|N|100|Y|N
 AMGN|Amgen Inc. - Common Stock|Q|N|N|40|N|N
 AMID|Argent Mid Cap ETF|G|N|N|100|Y|N
 AMIX|Autonomix Medical, Inc. - Common Stock|S|N|N|100|N|N
