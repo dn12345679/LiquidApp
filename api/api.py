@@ -6,7 +6,8 @@ import json
 import numpy as np
 import pandas as pd
 import analysis # custom script
-import datetime
+
+from datetime import datetime 
 
 import os
 from pathlib import Path
@@ -112,16 +113,41 @@ def get_title_card():
     
     company_name = df.iloc[0]["Security Name"].split("-")[0] # return
     
-    date = datetime.datetime.now()
+    date = datetime.now()
     month = date.strftime("%B") # month name
     year = date.year
     day = date.day
-    date = f"{month}/{day}/{year}" # return
+    date = f"{month} {day}, {year}" # return
     
-    price = analysis.get_current_price(ticker) # return 
+    price = analysis.get_price(ticker) # return 
+    
+    change = analysis.get_change(ticker) # return 
+    
+    tm = datetime.now().time()
+    timestamp = (str(tm.hour) + ":" + str(tm.minute).zfill(2) + " " + ("AM" if tm.hour < 12 else "PM")) # return
 
+    return jsonify({"Name": str(company_name), "Date": str(date), "Price": str(price), "ChangeInt": str(change[0]), "ChangePct": str(change[1]),  "Time": str(timestamp)}), 200 # Company name, date fetched, price, todays change
+
+
+@app.route('/api/fivedayreport')
+def get_5_day_report():
+    '''
+    Given a valid input string ticker, returns a JSON containing
+        information to be displayed on a 5-day price report card
+    Output is a list of 5 dictionaries, each containing:
+        - date: string MM-DD
+        - open: float
+        - close: float
+        - high: float
+        - low: float
+        - volume: int
+        - weekday: string 3-letter abbreviation
+    :param ticker: String stock ticker
+    '''
+    ticker = request.args.get("ticker")
+    arr_5day = analysis.get_5day_history(ticker)
     
-    return jsonify({"Name": str(company_name), "Date": str(date)}), 200 # Company name, date fetched, price, todays change
+    return jsonify(arr_5day), 200  
 
 @app.route('/api/description')
 def get_description(ticker):

@@ -1,12 +1,73 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+
 import '../App.css'
 import './vcomp.css'
-import { ReactNode,useState,  useEffect } from 'react';
+import { ReactNode,useState,  useEffect, useRef } from 'react';
+import { CardSlide, CardReset } from '.';
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useMotionValue,
+  useVelocity,
+  useAnimationFrame,
+  wrap,
+  AnimatePresence
+} from "framer-motion";
 
+
+interface ParallaxProps {
+  children: string;
+  baseVelocity: number;
+}
+
+function ParallaxText({children, baseVelocity = 100}: ParallaxProps) {
+    const baseX = useMotionValue(0);
+    const { scrollY } = useScroll();
+    const scrollVelocity = useVelocity(scrollY);
+    const smoothVelocity = useSpring(scrollVelocity, {
+        damping: 50,
+        stiffness: 400
+    });
+    const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+        clamp: false
+    });
+    const x = useTransform(baseX, (v) => `${wrap(-20, -40, v)}%`); // transform style
+
+    const directionFactor = useRef<number>(1);
+    useAnimationFrame((t, delta) => {
+    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+    if (velocityFactor.get() < 0) {
+      directionFactor.current = -1;
+    } else if (velocityFactor.get() > 0) {
+      directionFactor.current = 1;
+    }
+
+    moveBy += directionFactor.current * moveBy * velocityFactor.get();
+
+    baseX.set(baseX.get() + moveBy);
+  });
+  return (
+    <div className="overflow-hidden tracking-widest whitespace-nowrap flex flex-nowrap">
+        <motion.div className="text-[2rem] whitespace-nowrap flex flex-nowrap" style = {{x}}>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+        </motion.div>
+
+    </div>
+  )
+}
 
 interface TitleCard {
     Name: string;
     Date: string;
+    Price?: string;
+    ChangeInt?: string;
+    ChangePct?: string;
+    Time?: string;
 }
 
 
@@ -29,38 +90,36 @@ function TitleCard({ticker} : {ticker: string}) {
    
 
     return (
-        <motion.div className="absolute translate-y-1 w-[30vw] h-[30vh] box-simple font-istok text-black tracking-wider transition-all" onMouseMove={(e) => 
-    {const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
-    e.currentTarget.style.transformOrigin = `${x}% ${y}%`;
-    e.currentTarget.style.transform = 'scale(0.95) rotateY(10deg)';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.transform = 'scale(1)';
-  }}>
-            <div className='flex flex-wrap gap-1 p-[10%] justify-between'>
-                <p className='title-company text-[300%]'>
-                    {titlecard?.Name}
-                </p>
-                <p className='title-date text-[300%]'>
-                    {titlecard?.Date}
-                </p>
-                <div className='w-full border-2 m-1' />
-                <p className='title-date text-[200%]'>
-                    $179.54
-                </p>
-                <p className='title-time text-[200%]'>
-                    4:05 PM
-                </p>
-                <div className = 'w-full'/>
-                <p className = "title-change text-[150%]">
-                    +0.05%
-                </p>
-            </div>
-
-
+        <motion.div className=" w-[30vw] h-[30vh] box-simple font-istok text-black tracking-wider transition-all" onMouseMove={(e) => 
+                {CardSlide(e)}}
+            onMouseLeave={(e) => {
+                {CardReset(e)}
+            }}>
+                <div className='flex flex-wrap gap-1 p-[10%] justify-between truncate'>
+                    <p className='title-company text-[300%]'>
+                        <ParallaxText baseVelocity={-0.5}>
+                            {titlecard!.Name}
+                        </ParallaxText>
+                        
+                    </p>
+                    <p className='title-date text-[300%]'>
+                        {titlecard?.Date}
+                    </p>
+                    <div className='w-full border-2 m-1' />
+                    <p className='title-date text-[200%]'>
+                        ${titlecard?.Price}
+                    </p>
+                    <p className='title-time text-[200%]'>
+                        {titlecard?.Time}
+                    </p>
+                    <div className = 'w-full'/>
+                    <p className = "title-change text-[150%]">
+                        Today's Change: {titlecard?.ChangeInt}
+                    </p>
+                    <p className = "title-change text-[150%]">
+                        ({titlecard?.ChangePct}%)
+                    </p>    
+                </div>
         </motion.div>
     )
 }

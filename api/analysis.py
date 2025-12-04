@@ -44,11 +44,50 @@ def get_price(ticker):
 
 def get_change(ticker):
     '''
-    ditto
+    Given a ticker, returns a list of 2 items:
+        - change in price (float)
+        - change in percentage (float)
+    Assumes that 'ticker' is valid. (Should be)
+    :param ticker: String stock ticker
     '''
     
     dat = yf.Ticker(ticker) 
+    hist = dat.history() 
+    yesterday_price = hist['Close'].tail().iloc[-2]
+    last_quote = hist['Close'].iloc[-1]
     
+    change_int = last_quote - yesterday_price
+    change_pct = (change_int / yesterday_price) * 100
+    
+    return [(change_int).round(2), (change_pct).round(2)]
+
+def get_5day_history(ticker):
+    '''
+    Given a ticker, returns a data frame containing the last 5 days of price history.
+    Assumes that 'ticker' is valid. (Should be)
+    
+    :param ticker: String stock ticker
+    '''
+    
+    dat = yf.Ticker(ticker) 
+    hist = dat.history(period="5d") 
+    
+    five_day_hist = [] 
+    
+    for i in range(5):
+        day_data = {
+            'Date': str(hist.index[i].month) + "/" + str(hist.index[i].day),
+            'Weekday': str(hist.index[i].strftime("%A")[0:3]),
+            'Open': str(round(hist['Open'].iloc[i], 2)),
+            'Close': str(round(hist['Close'].iloc[i], 2)),
+            'High': str(round(hist['High'].iloc[i], 2)),
+            'Low': str(round(hist['Low'].iloc[i], 2)),
+            'Volume': str(int(hist['Volume'].iloc[i]))
+        }
+        five_day_hist.append(day_data)  
+
+    
+    return five_day_hist
 
 
 def analysis_nltk(df):

@@ -36,15 +36,21 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
     const hasText = !!searchQuery.trim().length;
     
     //
-    const handleSubmit = (e: FormEvent | null) => {
+    const handleSubmit = async (e: FormEvent | null) => {
         e?.preventDefault(); // stop page refresh
-        if (isValid){
-            onSubmit(searchQuery); // lift state
-        }
-        else {
-            console.log("Nope!");
+        try {
+            const result = await getValidation(searchQuery);
+            if (result.valid){
+                
+                onSubmit(searchQuery); // lift state
+            }
+            else {
+                console.log("Nope!");
 
-        }
+            }
+        } catch (error) {
+            console.error("error!", error);
+        } 
     }
 
     return (

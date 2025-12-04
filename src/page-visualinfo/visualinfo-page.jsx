@@ -4,7 +4,7 @@ import { Navbar, Logo, SearchBar, CircleBackground } from '../components';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, Navigate, useNavigate, Route } from 'react-router-dom';
 
-import {TitleCard} from '../visualization-components/index'
+import {TitleCard, PriceReport} from '../visualization-components/index'
 
 import '../App.css'
 
@@ -27,7 +27,7 @@ function DisplayModelSimple({ticker}) {
     return(
         <section id="Simple-Model-Components" className="absolute">
             <motion.div
-                className="grid grid-cols-3 gap-6"
+                className="grid grid-cols-3 gap-6 max-w[100vw] min-h-[110vh]"
                 variants = {containerVariants}
                 initial="hidden" 
                 animate="show" 
@@ -35,6 +35,9 @@ function DisplayModelSimple({ticker}) {
                 >
                     <motion.div variants={itemVariants} layout>
                         <TitleCard ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout>
+                        <PriceReport ticker={ticker}/>
                     </motion.div>
                     
             </motion.div>
@@ -123,7 +126,7 @@ function VisualInfo() {
             </div>
             <motion.div className='fixed z-50 '
                 initial = {{top: '0%'}}
-                whileInView={{top: '30%'}}
+                whileInView={{top: '35%'}}
                 viewport={{once: true}}
                 transition={{duration: 1,
                             ease: 'anticipate'

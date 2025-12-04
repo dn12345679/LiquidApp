@@ -45,13 +45,13 @@ function ParallaxText({children, baseVelocity = 100}: ParallaxProps) {
     baseX.set(baseX.get() + moveBy);
   });
   return (
-    <div className="overflow-hidden tracking-widest whitespace-nowrap flex flex-nowrap">
+    <div className="overflow-hidden tracking-widest whitespace-nowrap flex flex-nowrap truncate">
         <motion.div className="text-[5rem] whitespace-nowrap flex flex-nowrap" style = {{x}}>
-            <span>{children} </span>
-            <span>{children} </span>
-            <span>{children} </span>
-            <span>{children} </span>
-            <span>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8'>{children} </span>
+            <span className='mx-8 pb-3'>{children} </span>
         </motion.div>
 
     </div>
