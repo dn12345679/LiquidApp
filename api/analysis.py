@@ -63,7 +63,7 @@ def analysis_transformers(df):
             text = row['data']
             id = row['ID']
             
-            # 1 line. thats it.
+            # 1 line thats it
             analysis = classifier(text) # returns {'label': 'string', 'score': float}
             
             res[id] = {analysis['label'], analysis['score']}

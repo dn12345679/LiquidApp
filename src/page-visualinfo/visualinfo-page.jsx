@@ -12,7 +12,7 @@ function DisplayModelSimple({ticker}) {
     const today = new Date(Date.now())
 
     async function runModel(ticker) {
-        const res = await fetch(`../api/validate?ticker=${encodeURIComponent(ticker)}`);
+        const res = await fetch(`/api/validate?ticker=${encodeURIComponent(ticker)}`);
         
         if (!res.ok) {
             throw new Error("Failed to fetch info");
@@ -21,7 +21,7 @@ function DisplayModelSimple({ticker}) {
         console.log(data)
         return data;
     }
-    runModel("MSFT");
+    runModel(ticker);
 
     return(
         <section id="Simple-Model-Components" className="absolute">
