@@ -1,11 +1,35 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import '../App.css'
 import './vcomp.css'
-import { ReactNode } from 'react';
+import { ReactNode,useState,  useEffect } from 'react';
 
-function TitleCard({name, price, change, date, model} : {name: String, price: Number, change: Number, date: any, model: String}) {
+
+interface TitleCard {
+    Name: string;
+    Date: string;
+}
+
+
+function TitleCard({ticker} : {ticker: string}) {
+    const [titlecard, setTitlecard] = useState<TitleCard | null>(null);
+
+    useEffect(() => {
+        async function getTitleComp(ticker: string) {
+            const res = await fetch(`/api/titlecard?ticker=${encodeURIComponent(ticker)}`);
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch info");
+            }
+            const data: TitleCard = await res.json();
+            setTitlecard(data);
+        }
+        getTitleComp(ticker)
+    }, [ticker])
+
+   
+
     return (
-        <motion.div className="w-[30vw] h-[30vh] box-simple font-istok text-black tracking-wider  " onMouseMove={(e) => 
+        <motion.div className="absolute translate-y-1 w-[30vw] h-[30vh] box-simple font-istok text-black tracking-wider transition-all" onMouseMove={(e) => 
     {const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -18,10 +42,10 @@ function TitleCard({name, price, change, date, model} : {name: String, price: Nu
   }}>
             <div className='flex flex-wrap gap-1 p-[10%] justify-between'>
                 <p className='title-company text-[300%]'>
-                    {name}
+                    {titlecard?.Name}
                 </p>
                 <p className='title-date text-[300%]'>
-                    {date}
+                    {titlecard?.Date}
                 </p>
                 <div className='w-full border-2 m-1' />
                 <p className='title-date text-[200%]'>

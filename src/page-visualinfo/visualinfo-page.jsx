@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, stagger, useScroll, useTransform } from 'framer-motion'
 import { Navbar, Logo, SearchBar, CircleBackground } from '../components';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, Navigate, useNavigate, Route } from 'react-router-dom';
@@ -10,23 +10,35 @@ import '../App.css'
 
 function DisplayModelSimple({ticker}) {
     const today = new Date(Date.now())
-
-    async function runModel(ticker) {
-        const res = await fetch(`/api/validate?ticker=${encodeURIComponent(ticker)}`);
-        
-        if (!res.ok) {
-            throw new Error("Failed to fetch info");
-        }
-        const data = await res.json();
-        console.log(data)
-        return data;
+    if (!ticker) {
+        return <div>Loading...</div>;
     }
-    runModel(ticker);
+    const containerVariants = {
+        hidden: {},
+        show: {
+            transition: {staggerChildren: 0.08, delayChildren: 0.07}
+        }
+    }
+    const itemVariants = {
+        hidden: {opacity: 0, y: 50, scale: 0.96},
+        show: {opacity: 1, y: 0, scale: 1, transition: {duration: 0.5, ease: 'easeOut'}}
+    }
 
     return(
         <section id="Simple-Model-Components" className="absolute">
-            <TitleCard name={ticker} price={124.5} change={-0.05}
-                        date={today.getDate()} model={"Simple"}/>
+            <motion.div
+                className="grid grid-cols-3 gap-6"
+                variants = {containerVariants}
+                initial="hidden" 
+                animate="show" 
+                key={`simple-model-${ticker}`}
+                >
+                    <motion.div variants={itemVariants} layout>
+                        <TitleCard ticker={ticker}/>
+                    </motion.div>
+                    
+            </motion.div>
+            
 
         </section>
        
@@ -37,6 +49,7 @@ function DisplayModelSimple({ticker}) {
 function VisualInfo() {
     const navigate = useNavigate()
     const location = useLocation()
+    const [ticker, setTicker] = useState(null)
 
     const initialRGB = [185, 160, 113]
     const initialToRGB = [236, 238, 185]
@@ -49,12 +62,26 @@ function VisualInfo() {
     // not actually used, its a required parameter
     const { scrollYProgress } = useScroll();
     
+
+    useEffect(() => {
+    if (!location.state?.id) {
+        navigate('/');
+        return;
+    }
+    setTicker(location.state.id);
+    }, [location.state, navigate])
+
+
     // callback SearchBar.tsx
-    function handleSearchSubmit(query = "Test"){
+    function handleSearchSubmit(query = "AAPL"){
         console.log(query);
         // DONT FORGET TO HANDLE VALIDATION OF STOCK SEARCH
         navigate('/page-visualinfo', {state: {id:query}});
 
+    }
+
+    if (!ticker) {
+        return <div>Redirecting...</div>;
     }
 
     return (
@@ -62,7 +89,9 @@ function VisualInfo() {
             <Link to="/" className='fixed left-5 z-10'>
                 <Logo theme={0}></Logo> 
             </Link>
-            <motion.div className="w-screen h-screen flex-row fixed z-0  inset-0  min-w-dvw pointer-events-none"
+            <motion.div 
+                key={`background-${ticker}`}
+                className="w-screen h-screen flex-row fixed z-0  inset-0  min-w-dvw pointer-events-none"
                 
                 initial={{
                     background: 
@@ -90,9 +119,7 @@ function VisualInfo() {
                     circleLeftTo={[-1, 15, 65, 80, 45]}/>
             </motion.div>
             <div className='pt-[9vh] pl-[2vw]'>
-                {
-                    DisplayModelSimple({ticker:location.state.id})
-                }
+                <DisplayModelSimple key={ticker} ticker={ticker}/>
             </div>
             <motion.div className='fixed z-50 '
                 initial = {{top: '0%'}}

@@ -28,9 +28,28 @@ def test(param):
     dat = yf.Ticker("AAPL")
     return dat.info
 
-def title_card(ticker):
+def get_price(ticker): 
+    '''
+    Return price rounded to 2 decimal places.
+    Assumes that 'ticker' is valid. (Should be)
+    
+    :param ticker: String stock ticker
+    '''
+    
     dat = yf.Ticker(ticker)
-    return 
+    hist = dat.history() 
+    last_quote = hist['Close'].iloc[-1]
+
+    return last_quote.round(2)
+
+def get_change(ticker):
+    '''
+    ditto
+    '''
+    
+    dat = yf.Ticker(ticker) 
+    
+
 
 def analysis_nltk(df):
     '''
