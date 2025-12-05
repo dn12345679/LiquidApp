@@ -4,7 +4,7 @@ import numpy as np
 
 import nltk 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from transformers import pipeline
+
 
 # web scraping
 import yfinance as yf 
@@ -13,12 +13,6 @@ import bs4
 
 import requests 
 
-try:
-    import torch
-    _TORCH_AVAILABLE = True
-except Exception:
-    torch = None  # type: ignore
-    _TORCH_AVAILABLE = False
 
 
 
@@ -98,19 +92,8 @@ def get_5day_history(ticker):
     return five_day_hist
 
 
-def analysis_nltk(df):
-    '''
-    Given a 'sentiment data frame' df with the following columns:
-        [data, url, ID, ticker]
-    
-    Returns a dictionary containing:
-        {ID: {'label', 'score'}}
-    
-    Using the VADER nltk
-    '''
-    nltk.download('vader_lexicon')
 
-def analysis_transformers(df):
+def analysis_vaders(df):
     '''
     Given a 'sentiment data frame' df with the following columns:
         [data, url, ID, ticker]
@@ -118,11 +101,10 @@ def analysis_transformers(df):
     Returns a dictionary containing:
         {ID: {'label', 'score'}}
         
-    Using the transformers pipeline
+    Using NLTK VADERS (lightweight low CPu low ram)
     '''
-    classifier = pipeline("sentiment-analysis",
-                          model="distilbert-base-uncased-finetuned-sst-2-english",
-                          device = -1) # transformers pipeline model
+    nltk.download('vader_lexicon', quiet = True)
+    sia = SentimentIntensityAnalyzer()
     
     
     res = {}
@@ -132,14 +114,16 @@ def analysis_transformers(df):
             article = row['title']
             articleID = row['article_num']
             
-            # 1 line thats it
-            analysis = classifier(text) # returns {'label': 'string', 'score': float}
-            if isinstance(analysis, list) and len(analysis) > 0:
-                analysis = analysis[0]
-
-                res[i] = {analysis['label'], round(analysis['score'], 4), article, articleID}
-            else:
-                res[i] = {'label': None, 'score': None, 'article': article, 'articleID': articleID}
+            # returns score (-1 to 1)
+            scores = sia.polarity_scores(text) # returns {'label': 'string', 'score': float}
+            label = 'POSITIVE' if scores['compound'] >= 0.05 else ('NEGATIVE' if scores['compound'] < -0.05 else 'NEUTRAL')
+            
+            res[i] = {
+                'label': label,
+                'score': scores['compound'],
+                'article': article,
+                'articleID': articleID
+            }
             
         except RuntimeError as e:
             # skip it; 

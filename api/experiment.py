@@ -6,7 +6,12 @@ import analysis
 
 
 
+
 ticker = "MSF"
 
+df = analysis.get_sentiment_df(ticker, 5)
+sent = analysis.analysis_vaders(df)
 
 
+print(df.head())
+print(sent)

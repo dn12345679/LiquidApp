@@ -22,7 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-api/experiment.ipynb
+api/experiment.py
 
 **.git
 
@@ -36,3 +36,5 @@ api/experiment.ipynb
 
 *.pyc
 *.pyo
+
+api/experiment_nb.ipynb

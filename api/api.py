@@ -184,9 +184,8 @@ def get_sentiment():
     '''
     ticker = request.args.get("ticker")
     df = analysis.get_sentiment_df(ticker, 5)
-    sent = analysis.analysis_transformers(df)
-
-    return jsonify({
-        'dataframe': df.to_dict('records'),
-        'sentiment': sent
-    }), 200
+    sent = analysis.analysis_vaders(df)
+    
+    sent_2list = [v for k, v in sorted(sent.items(), key = lambda kv: int(kv[0]))]
+    
+    return jsonify(sent_2list), 200

@@ -7,6 +7,7 @@ import {RecommendSearch} from "./index.ts"
 import {motion} from "framer-motion"
 
 
+
 // !important: make sure to have onSubmit implemented in parent script
 function SearchBar({onSubmit, hintString = "What are you interested in today?"} : {onSubmit: any, hintString: string}){
     const [searchQuery, setSearchQuery] = useState("");
@@ -71,9 +72,12 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
 
     return (
         <motion.div className='relative w-fit h-fit flex flex-col justify-center items-center left-[50vw] top-[50vh]'>
-            <div className="origin-center items-center justify-between w-[39vw] h-[10vh] bg-white/52 transform -translate-x-1/2 rounded-[50px] drop-shadow-lg backdrop-blur-lg
+            <div className="origin-center items-center justify-between w-[39vw] h-[10vh] bg-white/50 transform -translate-x-1/2 rounded-[50px] drop-shadow-lg backdrop-blur-md
                             flex flex-row z-999">
                 <form onSubmit={handleSubmit} className="w-full h-full rounded-[50px] flex items-center justify-between">
+                    <div className='font-istok h-full flex flex-col items-center justify-center text-black text-[2.5vh] pl-10 pt-2 '>
+                        <p>$</p>
+                    </div>
                     <label className="text-[1.0vw] ml-[5%] h-full w-[70%] tracking-wide text-black text-left flex justify-center">
                         <input id="search-query-box" type="text" name="search"  autoComplete='off'
                                     className='w-full outline-none'

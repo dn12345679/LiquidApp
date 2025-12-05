@@ -18,7 +18,7 @@ interface PriceReportProps {
 }
 
 function PriceReport({ticker} : {ticker: string}) { 
-     const [priceReport, setPriceReport] = useState<Array<PriceReportProps> | null>(null);
+    const [priceReport, setPriceReport] = useState<Array<PriceReportProps> | null>(null);
     useEffect(() => {
     async function get5day(ticker: string) {
         const res = await fetch(`/api/fivedayreport?ticker=${encodeURIComponent(ticker)}`);

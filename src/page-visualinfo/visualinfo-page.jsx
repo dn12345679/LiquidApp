@@ -29,7 +29,7 @@ function DisplayModelSimple({ticker}) {
     return(
         <section id="Simple-Model-Components" className="absolute">
             <motion.div
-                className="flex flex-row flex-wrap max-w-[100vw] min-h-[110vh]"
+                className="flex flex-row flex-wrap max-w-[100vw] pb-[15vh]"
                 variants = {containerVariants}
                 initial="hidden" 
                 animate="show" 
@@ -58,7 +58,7 @@ function DisplayModelStandard({ticker}) {
     return(
         <section id="Standard-Model-Components" className="absolute">
             <motion.div
-                className="flex flex-row flex-wrap max-w-[100vw] min-h-[110vh]"
+                className="flex flex-row flex-wrap max-w-[100vw] pb-[15vh]"
                 variants = {containerVariants}
                 initial="hidden" 
                 animate="show" 
@@ -90,7 +90,7 @@ function DisplayModelAdvanced({ticker}) {
     return(
         <section id="Advanced-Model-Components" className="absolute">
             <motion.div
-                className="flex flex-row flex-wrap max-w-[100vw] min-h-[110vh]"
+                className="flex flex-row flex-wrap max-w-[100vw] pb-[15vh]"
                 variants = {containerVariants}
                 initial="hidden" 
                 animate="show" 
@@ -102,7 +102,7 @@ function DisplayModelAdvanced({ticker}) {
                     <motion.div variants={itemVariants} layout className='p-5 pb-10'>
                         <PriceReport ticker={ticker}/>
                     </motion.div>
-                    <motion.div variants={itemVariants} layout >
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
                         <Graph5Day  ticker={ticker}/>
                     </motion.div>
                     <motion.div variants={itemVariants} layout className='p-5 pb-10'>
