@@ -15,6 +15,8 @@ import {
   Title,
   Tooltip,
   Legend,
+  scales,
+  Ticks,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { data } from 'react-router-dom';
@@ -58,13 +60,37 @@ function Graph5Day({ticker}: {ticker: string}) {
     const options = {
         responsive: true,
         plugins: {
-        legend: {
-            position: 'top' as const,
+            legend: {
+                position: 'top' as const,
+                labels: {
+                    font: {
+                        size: 16,
+                    },
+                },
+            },
+            title: {
+                display: true,
+                text: '5-Day Price Movement',
+                font: {
+                    size: 20,
+                }
+            },
         },
-        title: {
-            display: true,
-            text: '5-Day Price Movement',
-        },
+        scales: {
+            x: {
+                ticks: {
+                    font: {
+                        size: 14,
+                    },
+                },
+            },
+            y: {
+                ticks: {
+                    font: {
+                        size: 14,
+                    },
+                },
+            },
         },
     };
 

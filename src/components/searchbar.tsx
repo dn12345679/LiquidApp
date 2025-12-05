@@ -11,6 +11,7 @@ import {motion} from "framer-motion"
 function SearchBar({onSubmit, hintString = "What are you interested in today?"} : {onSubmit: any, hintString: string}){
     const [searchQuery, setSearchQuery] = useState("");
     const [isValid, setIsValid] = useState(false);
+    const [isValidating, setIsValidating] = useState(false);
 
     let [model, setModel] = useState('Simple');
 
@@ -36,24 +37,26 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
     }
 
 
-    const setAndCheck = (query: string) => {
+    const setAndCheck = async (query: string) => {
         setSearchQuery(query);
-        async function validate() {
+        setIsValidating(true);
+        try {
             const result = await getValidation(query);
-
             setIsValid(result.valid);
+        } catch (error) {
+            setIsValid(false);
+        } finally {
+            setIsValidating(false);
         }
-        validate()
     }
 
     const hasText = !!searchQuery.trim().length;
-    
-    //
+    const buttonDisabled = !hasText || isValidating || !isValid;
     const handleSubmit = async (e: FormEvent | null) => {
         e?.preventDefault(); // stop page refresh
         try {
             const result = await getValidation(searchQuery);
-            if (result.valid){
+            if (result.valid ) {
                 
                 onSubmit(searchQuery, model); // lift state
             }
@@ -102,7 +105,7 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
                             disabled:opacity-55
                             " 
                             tabIndex={0}
-                            disabled={!(hasText)}
+                            disabled={buttonDisabled}
                             type="submit"
                             >$ 
                     </button>
@@ -110,7 +113,7 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
                 </form>
             </div>
             <div className="origin-center -translate-x-8/9 ">
-                <RecommendSearch ticker={searchQuery} setQuery={setSearchQuery}></RecommendSearch>
+                <RecommendSearch ticker={searchQuery} setQuery={setAndCheck}></RecommendSearch>
             </div>
             
         </motion.div>

@@ -32,9 +32,17 @@ ChartJS.register(
   BarController
 );
 
+interface SentimentProps {
+    label?: string; 
+    score?: string;
+    article?: string;
+    articleID?: string;
+}
+
 function SentimentVisualization({ticker}: {ticker: string}) {
 
-    const labels = []
+
+    
     return (
         <motion.div className='w-[60vw] h-[90vh] box-advanced font-istok text-black tracking-wider transition-all'onMouseMove={(e) => 
                 {CardSlide(e)}}

@@ -3,6 +3,7 @@ import {motion} from "framer-motion"
 
 function RecommendSearch({ticker, setQuery}) {
     const [top5results, setTop5results] = useState([]);
+    const [canRender, setCanRender] = useState(false);
     
     // get top 5 sorted recommendations
     async function getRecommended(ticker) {
@@ -23,42 +24,52 @@ function RecommendSearch({ticker, setQuery}) {
                 
                 if (data && Array.isArray(data.matches)) {
                     setTop5results(data.matches);
+                    setCanRender(true);
                 } else {
                     setTop5results([]);
+                    setCanRender(false);
                 }
             } catch (error) {
                 console.error("idk something happened", error)
                 setTop5results([]);
+                setCanRender(false);
             }
         }
         fetchFromValidation();
     }, [ticker]);
 
+    if (canRender === false) {
+        return <div>Loading...</div>;
+    }
     
+    try {
+        return (
+            <motion.div className="transition-all  h-fit ">
+                {
+                    top5results.map((result, i) => (
+                        <motion.div 
+                            key={result.Symbol}
+                            initial={{opacity: 0, scale: 0}}
+                            animate={{opacity: 1, scale: 1}}
+                            transition={{duration: 0.5, delay: i * 0.1}}
+                            className="w-[20vw] h-[5vh] font-istok text-black 
+                                        text-center border-2 rounded-lg
+                                        bg-amber-50/40 flex flex-row items-center justify-start
+                                        hover:scale-95 transition-all hover:cursor-pointer"
+                            layout>
+                                <div className="h-fit w-fit font-istok tracking-wide text-[20px] p-1 wrap-break-word whitespace-nowrap overflow-x-hidden"
+                                    onClick={() => setQuery(result.Symbol)}>
+                                    {result.Symbol} - {result["Security Name"] }
+                                </div> 
+                        </motion.div>
+                    ))
+                }
+            </motion.div>
+        )
+    } catch {
+        return <div>Loading...</div>;
+    }
 
-    return (
-        <motion.div className="transition-all  h-fit ">
-            {
-                top5results.map((result, i) => (
-                    <motion.div 
-                        key={result.Symbol}
-                        initial={{opacity: 0, scale: 0}}
-                        animate={{opacity: 1, scale: 1}}
-                        transition={{duration: 0.5, delay: i * 0.1}}
-                        className="w-[20vw] h-[5vh] font-istok text-black 
-                                    text-center border-2 rounded-lg
-                                    bg-amber-50/40 flex flex-row items-center justify-start
-                                    hover:scale-95 transition-all hover:cursor-pointer"
-                        layout>
-                            <div className="h-fit w-fit font-istok tracking-wide text-[20px] p-1 wrap-break-word whitespace-nowrap overflow-x-hidden"
-                                onClick={() => setQuery(result.Symbol)}>
-                                {result.Symbol} - {result["Security Name"] }
-                            </div> 
-                    </motion.div>
-                ))
-            }
-        </motion.div>
-    )
 }
 
 export default RecommendSearch;

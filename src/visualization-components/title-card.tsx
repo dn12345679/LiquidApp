@@ -14,6 +14,7 @@ import {
   wrap,
   AnimatePresence
 } from "framer-motion";
+import { title } from 'motion/react-client';
 
 
 interface ParallaxProps {
@@ -96,12 +97,12 @@ function TitleCard({ticker} : {ticker: string}) {
                 {CardReset(e)}
             }}>
                 <div className='flex flex-wrap gap-1 p-[10%] justify-between truncate'>
-                    <p className='title-company text-[300%]'>
+                    <div className='title-company text-[300%]'>
                         <ParallaxText baseVelocity={-0.5}>
                             {titlecard?.Name}
                         </ParallaxText>
                         
-                    </p>
+                    </div>
                     <p className='title-date text-[1vw]'>
                         {titlecard?.Date}
                     </p>
@@ -114,14 +115,17 @@ function TitleCard({ticker} : {ticker: string}) {
                     </p>
 
                     <div className = 'w-full p-0'/>
-                    <p className = "title-change text-[1.5vw]">
+                    <p className = {`title-change text-[1.5vw] ${titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? 'text-green-600' : 'text-red-600'}`}>
                         {titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? '+' : ''}{
                         titlecard?.ChangePct
                         }%
                     </p>    
-                    <p className = "title-change text-[1.5vw]">
-                        Today's Change: {titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? '+' : ''}{titlecard?.ChangeInt}
-                    </p>
+                    <div className = {`title-change text-[1.5vw] flex flex-row`}>
+                        Today's Change: 
+                        <p className={`${titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? 'text-green-600' : 'text-red-600'}`}>
+                            {titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? ' +' : ' '}{titlecard?.ChangeInt}
+                        </p> 
+                    </div>
 
                 </div>
         </motion.div>
