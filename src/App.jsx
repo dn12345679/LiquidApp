@@ -93,12 +93,10 @@ function App() {
 
  
   // callback SearchBar.tsx
-  function handleSearchSubmit(query = "Test"){
-    console.log(query);
-    
-
+  function handleSearchSubmit(query = "AAPL", model="Simple"){
+  
     // DONT FORGET TO HANDLE VALIDATION OF STOCK SEARCH
-    navigate('/page-visualinfo', {state: {id:query}});
+    navigate('/page-visualinfo', {state: {id:query, model:model}});
 
   }
 

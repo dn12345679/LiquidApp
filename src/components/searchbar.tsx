@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent, SetStateAction, useState} from 'react';
+import { FormEvent, SetStateAction, use, useState} from 'react';
 import {BrowserRouter, createBrowserRouter, Link, Route, RouterProvider, Routes, useNavigate} from 'react-router-dom';
 import {ROUTES} from '../routes.ts'; // make sure to update this import if routes change
 import VisualInfo from '../page-visualinfo/visualinfo-page.jsx';
@@ -11,6 +11,19 @@ import {motion} from "framer-motion"
 function SearchBar({onSubmit, hintString = "What are you interested in today?"} : {onSubmit: any, hintString: string}){
     const [searchQuery, setSearchQuery] = useState("");
     const [isValid, setIsValid] = useState(false);
+
+    let [model, setModel] = useState('Simple');
+
+    let models = [
+        {label: 'Simple Model', value: 'Simple'},
+        {label: 'Standard Model', value: 'Standard'},
+        {label: 'Advanced Model', value: 'Advanced'},
+    ]
+
+    let handleModelChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+        setModel(e.target.value);
+    }
+
 
     async function getValidation(ticker: string) {
         const res = await fetch(`/api/legal?ticker=${encodeURIComponent(ticker)}`);
@@ -42,7 +55,7 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
             const result = await getValidation(searchQuery);
             if (result.valid){
                 
-                onSubmit(searchQuery); // lift state
+                onSubmit(searchQuery, model); // lift state
             }
             else {
                 console.log("Nope!");
@@ -72,7 +85,15 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
                                     value={searchQuery}
                         />
                     </label>
-                        
+                    
+                    <select onChange={handleModelChange} className="text-[1.0vw] font-istok text-black bg-transparent">
+                        <option value="Simple" disabled selected className='text-[1.0vw] font-istok text-black'> Model </option>
+                        {models.map((mod, i) => (
+                            <option key={mod.value} value={mod.value} className='text-[1.0vw] '>
+                                <p className='font-istok text-black'> {mod.label}</p>
+                            </option>
+                        ))}
+                    </select>
 
                     <button className="h-[50%] w-[10%] text-black text-[1.0vw] bg-amber-600 rounded-full drop-shadow-lg mr-[5%]
                             md:enabled:cursor-pointer
@@ -85,6 +106,7 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
                             type="submit"
                             >$ 
                     </button>
+
                 </form>
             </div>
             <div className="origin-center -translate-x-8/9 ">

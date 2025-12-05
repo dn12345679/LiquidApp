@@ -156,3 +156,29 @@ def get_description(ticker):
         information to be displayed on a React description card
     '''
     return # some company description
+
+
+
+@app.route('/api/sentiment')
+def get_sentiment():
+    '''
+    Given a valid input string ticker, returns a JSON containing
+        information to be displayed on a sentiment analysis card
+    Output is a list of dictionaries, each containing:
+        - ID: The number in sequential order within the same article
+        - ticker: Stock ticker 
+        - title: Title of the article
+        - link: Link to the article
+        - published_utc: Date/time published (UTC)
+        - sentiment_label: Sentiment label (POSITIVE, NEGATIVE, NEUTRAL)
+        - sentiment_score: Sentiment score (float between 0 and 1)
+    :param ticker: String stock ticker
+    '''
+    ticker = request.args.get("ticker")
+    df = analysis.get_sentiment_df(ticker, 5)
+    sent = analysis.analysis_transformers(df)
+
+    return jsonify({
+        'dataframe': df.to_dict('records'),
+        'sentiment': sent
+    }), 200

@@ -13,6 +13,14 @@ import bs4
 
 import requests 
 
+try:
+    import torch
+    _TORCH_AVAILABLE = True
+except Exception:
+    torch = None  # type: ignore
+    _TORCH_AVAILABLE = False
+
+
 
 
 
@@ -112,25 +120,32 @@ def analysis_transformers(df):
         
     Using the transformers pipeline
     '''
-    classifier = pipeline("sentiment-analysis") # transformers pipeline model
+    classifier = pipeline("sentiment-analysis",
+                          model="distilbert-base-uncased-finetuned-sst-2-english",
+                          device = -1) # transformers pipeline model
     
     
     res = {}
     for i, row in df.iterrows():
         try:
             text = row['data']
-            id = row['ID']
+            article = row['url']
+            articleID = row['article_num']
             
             # 1 line thats it
             analysis = classifier(text) # returns {'label': 'string', 'score': float}
-            
-            res[id] = {analysis['label'], analysis['score']}
+            if isinstance(analysis, list) and len(analysis) > 0:
+                analysis = analysis[0]
+
+                res[i] = {analysis['label'], round(analysis['score'], 4), article, articleID}
+            else:
+                res[i] = {'label': None, 'score': None}
             
         except RuntimeError as e:
             # skip it; 
             continue
 
-    return
+    return res
 
 
 def get_sentiment_df(ticker, n):
@@ -187,7 +202,7 @@ def scrape_article(url):
     
     texts = []  # list of all data to analyze; to be returned
     
-    # BUGREF: check that class_ doesn't cause issues down the line. 
+    # BUG check: check that class_ doesn't cause issues down the line. 
     for c in soup.find_all('p', class_="yf-1090901"):
         text = c.contents[1]
         # filter out plain html 

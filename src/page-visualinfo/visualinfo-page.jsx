@@ -4,44 +4,112 @@ import { Navbar, Logo, SearchBar, CircleBackground } from '../components';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, Navigate, useNavigate, Route } from 'react-router-dom';
 
-import {TitleCard, PriceReport} from '../visualization-components/index'
+import {TitleCard, PriceReport, Graph5Day, SentimentVisualization} from '../visualization-components/index'
 
 import '../App.css'
+
+const containerVariants = {
+    hidden: {},
+    show: {
+        transition: {staggerChildren: 0.08, delayChildren: 0.07}
+    }
+}
+const itemVariants = {
+    hidden: {opacity: 0, y: 50, scale: 0.96},
+    show: {opacity: 1, y: 0, scale: 1, transition: {duration: 0.5, ease: 'easeOut'}}
+}
+
 
 function DisplayModelSimple({ticker}) {
     const today = new Date(Date.now())
     if (!ticker) {
         return <div>Loading...</div>;
     }
-    const containerVariants = {
-        hidden: {},
-        show: {
-            transition: {staggerChildren: 0.08, delayChildren: 0.07}
-        }
-    }
-    const itemVariants = {
-        hidden: {opacity: 0, y: 50, scale: 0.96},
-        show: {opacity: 1, y: 0, scale: 1, transition: {duration: 0.5, ease: 'easeOut'}}
-    }
 
     return(
         <section id="Simple-Model-Components" className="absolute">
             <motion.div
-                className="grid grid-cols-3 gap-6 max-w[100vw] min-h-[110vh]"
+                className="flex flex-row flex-wrap max-w-[100vw] min-h-[110vh]"
                 variants = {containerVariants}
                 initial="hidden" 
                 animate="show" 
                 key={`simple-model-${ticker}`}
                 >
-                    <motion.div variants={itemVariants} layout>
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
                         <TitleCard ticker={ticker}/>
                     </motion.div>
-                    <motion.div variants={itemVariants} layout>
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
                         <PriceReport ticker={ticker}/>
                     </motion.div>
                     
             </motion.div>
-            
+
+        </section>
+       
+    )
+}
+function DisplayModelStandard({ticker}) {
+
+    const today = new Date(Date.now())
+    if (!ticker) {
+        return <div>Loading...</div>;
+    }
+
+    return(
+        <section id="Standard-Model-Components" className="absolute">
+            <motion.div
+                className="flex flex-row flex-wrap max-w-[100vw] min-h-[110vh]"
+                variants = {containerVariants}
+                initial="hidden" 
+                animate="show" 
+                key={`standard-model-${ticker}`}
+                >
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                        <TitleCard ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                        <PriceReport ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout >
+                        <Graph5Day  ticker={ticker}/>
+                    </motion.div>
+            </motion.div>
+
+        </section>
+       
+    )
+}
+
+function DisplayModelAdvanced({ticker}) {
+
+    const today = new Date(Date.now())
+    if (!ticker) {
+        return <div>Loading...</div>;
+    }
+
+    return(
+        <section id="Advanced-Model-Components" className="absolute">
+            <motion.div
+                className="flex flex-row flex-wrap max-w-[100vw] min-h-[110vh]"
+                variants = {containerVariants}
+                initial="hidden" 
+                animate="show" 
+                key={`advanced-model-${ticker}`}
+                >
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                        <TitleCard ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                        <PriceReport ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout >
+                        <Graph5Day  ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                        <SentimentVisualization ticker={ticker}/>
+                    </motion.div>
+                    
+            </motion.div>
 
         </section>
        
@@ -53,6 +121,7 @@ function VisualInfo() {
     const navigate = useNavigate()
     const location = useLocation()
     const [ticker, setTicker] = useState(null)
+    const [model, setModel] = useState("Simple")
 
     const initialRGB = [185, 160, 113]
     const initialToRGB = [236, 238, 185]
@@ -72,14 +141,15 @@ function VisualInfo() {
         return;
     }
     setTicker(location.state.id);
-    }, [location.state, navigate])
+    setModel(location.state.model);
+    }, [location.state,location.model, navigate])
 
 
     // callback SearchBar.tsx
-    function handleSearchSubmit(query = "AAPL"){
+    function handleSearchSubmit(query = "AAPL", model="Simple"){
         console.log(query);
         // DONT FORGET TO HANDLE VALIDATION OF STOCK SEARCH
-        navigate('/page-visualinfo', {state: {id:query}});
+        navigate('/page-visualinfo', {state: {id:query, model:model}});
 
     }
 
@@ -122,7 +192,10 @@ function VisualInfo() {
                     circleLeftTo={[-1, 15, 65, 80, 45]}/>
             </motion.div>
             <div className='pt-[9vh] pl-[2vw]'>
-                <DisplayModelSimple key={ticker} ticker={ticker}/>
+
+                {model === "Simple" && <DisplayModelSimple key={ticker} ticker={ticker}/>}
+                {model === "Standard" && <DisplayModelStandard key={ticker} ticker={ticker}/>}
+                {model === "Advanced" && <DisplayModelAdvanced key={ticker} ticker={ticker}/>}
             </div>
             <motion.div className='fixed z-50 '
                 initial = {{top: '0%'}}

@@ -17,7 +17,7 @@ import {
 
 
 interface ParallaxProps {
-  children: string;
+  children: string | undefined;
   baseVelocity: number;
 }
 
@@ -98,27 +98,31 @@ function TitleCard({ticker} : {ticker: string}) {
                 <div className='flex flex-wrap gap-1 p-[10%] justify-between truncate'>
                     <p className='title-company text-[300%]'>
                         <ParallaxText baseVelocity={-0.5}>
-                            {titlecard!.Name}
+                            {titlecard?.Name}
                         </ParallaxText>
                         
                     </p>
-                    <p className='title-date text-[300%]'>
+                    <p className='title-date text-[1vw]'>
                         {titlecard?.Date}
                     </p>
-                    <div className='w-full border-2 m-1' />
-                    <p className='title-date text-[200%]'>
-                        ${titlecard?.Price}
-                    </p>
-                    <p className='title-time text-[200%]'>
+                    <p className='title-time text-[1vw]'>
                         {titlecard?.Time}
                     </p>
-                    <div className = 'w-full'/>
-                    <p className = "title-change text-[150%]">
-                        Today's Change: {titlecard?.ChangeInt}
+                    <div className='w-full border-2 m-1' />
+                    <p className='title-date text-[2vw]'>
+                        ${titlecard?.Price}
                     </p>
-                    <p className = "title-change text-[150%]">
-                        ({titlecard?.ChangePct}%)
+
+                    <div className = 'w-full p-0'/>
+                    <p className = "title-change text-[1.5vw]">
+                        {titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? '+' : ''}{
+                        titlecard?.ChangePct
+                        }%
                     </p>    
+                    <p className = "title-change text-[1.5vw]">
+                        Today's Change: {titlecard?.ChangePct && titlecard?.ChangePct[0] !== '-' ? '+' : ''}{titlecard?.ChangeInt}
+                    </p>
+
                 </div>
         </motion.div>
     )

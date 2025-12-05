@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,10 +13,13 @@
     "api:windows": "cd api && .venv\\Scripts\\flask run --no-debugger"
   },
   "dependencies": {
+    "@cubejs-client/core": "^0.31.0",
     "@tailwindcss/vite": "^4.1.17",
+    "chart.js": "^4.5.1",
     "flask": "^0.2.10",
     "motion": "^12.23.24",
     "react": "^19.2.0",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6",
     "tailwindcss": "^4.1.17"
