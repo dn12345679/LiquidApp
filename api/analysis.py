@@ -129,7 +129,7 @@ def analysis_transformers(df):
     for i, row in df.iterrows():
         try:
             text = row['data']
-            article = row['url']
+            article = row['title']
             articleID = row['article_num']
             
             # 1 line thats it
@@ -139,7 +139,7 @@ def analysis_transformers(df):
 
                 res[i] = {analysis['label'], round(analysis['score'], 4), article, articleID}
             else:
-                res[i] = {'label': None, 'score': None}
+                res[i] = {'label': None, 'score': None, 'article': article, 'articleID': articleID}
             
         except RuntimeError as e:
             # skip it; 
@@ -168,14 +168,15 @@ def get_sentiment_df(ticker, n):
     data_to_be_df = []
     for i in range(n): 
         url = news[i]["link"]
-        return_url, responses = scrape_article(url) 
+        return_url, responses, title = scrape_article(url) 
         # each article stores a sentence fragment individually 
         for sentence in responses: 
             row_data = { 'data': sentence, 
                     'url': url, 
                     'ID': sentence_id, 
                     'ticker': ticker, 
-                    'article_num': i 
+                    'article_num': i,
+                    'title': title
                 }
             data_to_be_df.append(row_data) 
 
@@ -195,12 +196,13 @@ def scrape_article(url):
         scraped from the article. 
     '''
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0"} # validate header
-    
+
     response = requests.get(url, headers = headers)  
     soup = BeautifulSoup(response.text, "html.parser") 
     # html = soup.prettify()
     
     texts = []  # list of all data to analyze; to be returned
+    title = ""
     
     # BUG check: check that class_ doesn't cause issues down the line. 
     for c in soup.find_all('p', class_="yf-1090901"):
@@ -208,7 +210,13 @@ def scrape_article(url):
         # filter out plain html 
         if isinstance(text, bs4.element.NavigableString):
             texts.extend(text.split('. '))
+    
+    
+    for t in soup.find_all('h1', class_="cover-title yf-xjr453"):
+        text = t.contents[0]
+        if isinstance(text, bs4.element.NavigableString):
+            title = text
 
     #save_html(response.text) 
     
-    return (url, texts)  
+    return (url, texts, title)  

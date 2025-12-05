@@ -44,17 +44,24 @@ def validate_ticker():
 
     if not ticker or ticker == "":
         return jsonify({"valid": False, "matches": [], "error": "No ticker provided"}), 400
-    result = []
-    result = autocomplete(ticker)
     
-    if result.empty:  # check if DataFrame is empty
+    # check exact
+    exact_match = validate_table[validate_table['Symbol'].str.upper() == ticker.upper()]
+    if not exact_match.empty:
         
+        result = autocomplete(ticker)
+        matches = result.fillna('').to_dict('records')
+        return jsonify({
+            "valid": False, 
+            "matches": matches
+        }), 200
+    result = autocomplete(ticker)
+    if result.empty:
         return jsonify({"valid": False, "matches": []}), 200
     
     matches = result.fillna('').to_dict('records')
-
     return jsonify({
-        "valid": True, 
+        "valid": False, 
         "matches": matches
     }), 200
 
@@ -79,11 +86,12 @@ def isLegal():
     '''
     Given a string parameter ticker,
         Return true if it is a legal ticker, and 
-        false if it is not. Searches full dataframe
+        false if it is not. Searches full dataframe for exact match (case-insensitive)
     '''
     ticker = request.args.get("ticker")
     
-    isValid = validate_table['Symbol'].str.contains(ticker).any()
+    # check exact match
+    isValid = (validate_table['Symbol'].str.upper() == ticker.upper()).any()
     return jsonify({"valid": bool(isValid)}), 200
 
 ## methods
