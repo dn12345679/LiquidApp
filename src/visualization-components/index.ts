@@ -1,6 +1,6 @@
 export {default as TitleCard} from "./title-card"
 export {default as PriceReport} from "./price-report"
-export {default as Graph5Day} from "./graph-5day"
+export {default as GraphNDay} from "./graph-nday"
 export {default as SentimentVisualization} from "./sentiment"
 export {default as Financials} from "./financials"
 

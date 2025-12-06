@@ -4,7 +4,7 @@ import { Navbar, Logo, SearchBar, CircleBackground } from '../components';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, Navigate, useNavigate, Route } from 'react-router-dom';
 
-import {TitleCard, PriceReport, Graph5Day, SentimentVisualization, Financials} from '../visualization-components/index'
+import {TitleCard, PriceReport, GraphNDay, SentimentVisualization, Financials} from '../visualization-components/index'
 
 import '../App.css'
 
@@ -69,7 +69,7 @@ function DisplayModelStandard({ticker}) {
                 >
                     <DisplayModelSimple ticker={ticker}/>
                     <motion.div variants={itemVariants} layout >
-                        <Graph5Day  ticker={ticker}/>
+                        <GraphNDay  ticker={ticker}/>
                     </motion.div>
             </motion.div>
 

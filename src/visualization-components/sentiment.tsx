@@ -89,7 +89,7 @@ function SentimentVisualization({ticker}: {ticker: string}) {
                 }, 
                 title: {
                     display: true,
-                    text: 'Portion Position', 
+                    text: 'Article Progression', 
                     font: {
                         size: 25
                     }
@@ -120,13 +120,13 @@ function SentimentVisualization({ticker}: {ticker: string}) {
         
         datasets : 
             labels.map((label,i)  => {
-                const entries = sentimentData!.filter(e => e.article === label)
+                const entries = sentimentData!.filter(e => e.article === label && e.score !== 0)
                 return {
                     label: label, 
                     data: entries.map(entry => ({
                         y: Number(entry?.score ?? 0), 
                         x: Number(1/(entry!.sentenceID+1)),
-                        r: Number(5 * entry!.label!.length),
+                        r: Number(1 * entry!.label!.length),
                     })),
                     backgroundColor: ColorblindSafePaletteTrue[i], 
                     border: 2
@@ -137,12 +137,15 @@ function SentimentVisualization({ticker}: {ticker: string}) {
 
     
     return (
-        <motion.div className='w-[70vw] h-[70vh] p-10 box-advanced font-istok text-black tracking-wider transition-all'onMouseMove={(e) => 
+        <motion.div className='w-[90vw] h-[90vh] p-10 box-advanced font-istok text-black tracking-wider transition-all'onMouseMove={(e) => 
                 {CardSlide(e)}}
             onMouseLeave={(e) => {
                 {CardReset(e)}
             }}>
-                <Bubble options={options} data={data}></Bubble>
+                {
+                    sentimentData ? <Bubble options={options} data={data}></Bubble> : <div className="font-istok text-[3vh]"> Loading Data. Please wait... </div>
+                }
+                
 
         </motion.div>
     );

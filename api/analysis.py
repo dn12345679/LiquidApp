@@ -63,20 +63,20 @@ def get_change(ticker):
     
     return [(change_int).round(2), (change_pct).round(2)]
 
-def get_5day_history(ticker):
+def get_nday_history(ticker, n):
     '''
-    Given a ticker, returns a data frame containing the last 5 days of price history.
+    Given a ticker, returns a data frame containing the last n days of price history.
     Assumes that 'ticker' is valid. (Should be)
     
     :param ticker: String stock ticker
     '''
     
     dat = yf.Ticker(ticker) 
-    hist = dat.history(period="5d") 
+    hist = dat.history(period= str(n) + "d") 
     
-    five_day_hist = [] 
+    n_day_hist = [] 
     
-    for i in range(5):
+    for i in range(n):
         day_data = {
             'Date': str(hist.index[i].month) + "/" + str(hist.index[i].day),
             'Weekday': str(hist.index[i].strftime("%A")[0:3]),
@@ -86,10 +86,10 @@ def get_5day_history(ticker):
             'Low': str(round(hist['Low'].iloc[i], 2)),
             'Volume': str(int(hist['Volume'].iloc[i]))
         }
-        five_day_hist.append(day_data)  
+        n_day_hist.append(day_data)  
 
     
-    return five_day_hist
+    return n_day_hist
 
 
 def get_financials(ticker):
@@ -98,7 +98,7 @@ def get_financials(ticker):
         of the quarterly financials (8/49 total), 
     Returns an array of dictionary elements with key: Title, value: Value <-- wow thanks
     '''
-    interest = ['Total Revenue', 'Cost Of Revenue', 'Gross Profit', 'Operating Expense', 'Operating Income','Interest Expense','EBITDA', 'Net Income']
+    interest = ['Total Revenue', 'Cost Of Revenue', 'Gross Profit', 'Operating Expense', 'Operating Income', 'Net Income']
     stock = yf.Ticker(ticker)
     info = stock.quarterly_financials
     values_of_interest = []
@@ -156,13 +156,15 @@ def get_sentiment_df(ticker, n):
         - ticker: Stock ticker 
         
     DOES NOT perform any analysis
+
+    IMPORTANT! Scrapes UP TO n articles, and n articles will not always be returned. 
     '''
     news = yf.Search(ticker, news_count = n).news 
 
     
     sentence_id = 0 # assign to sentences within articles 
     data_to_be_df = []
-    for i in range(n): 
+    for i in range(len(news)): 
         url = news[i]["link"]
         return_url, responses, title = scrape_article(url) 
         # each article stores a sentence fragment individually 

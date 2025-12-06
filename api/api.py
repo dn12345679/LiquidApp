@@ -140,11 +140,11 @@ def get_title_card():
     return jsonify({"Name": str(company_name), "Date": str(date), "Price": str(price), "ChangeInt": str(change[0]), "ChangePct": str(change[1]),  "Time": str(timestamp)}), 200 # Company name, date fetched, price, todays change
 
 
-@app.route('/api/fivedayreport')
-def get_5_day_report():
+@app.route('/api/ndayreport')
+def get_n_day_report():
     '''
     Given a valid input string ticker, returns a JSON containing
-        information to be displayed on a 5-day price report card
+        information to be displayed on a n-day price report card
     Output is a list of 5 dictionaries, each containing:
         - date: string MM-DD
         - open: float
@@ -155,10 +155,11 @@ def get_5_day_report():
         - weekday: string 3-letter abbreviation
     :param ticker: String stock ticker
     '''
+    n = int(request.args.get("n", 5))  # default to 5 if not provided
     ticker = request.args.get("ticker")
-    arr_5day = analysis.get_5day_history(ticker)
+    arr_nday = analysis.get_nday_history(ticker, n)
     
-    return jsonify(arr_5day), 200  
+    return jsonify(arr_nday), 200  
 
 @app.route('/api/description')
 def get_description():

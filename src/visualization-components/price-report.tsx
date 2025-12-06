@@ -19,9 +19,10 @@ interface PriceReportProps {
 
 function PriceReport({ticker} : {ticker: string}) { 
     const [priceReport, setPriceReport] = useState<Array<PriceReportProps> | null>(null);
+    const N = 5; // since this is a 5-day report I only use 5;
     useEffect(() => {
-    async function get5day(ticker: string) {
-        const res = await fetch(`/api/fivedayreport?ticker=${encodeURIComponent(ticker)}`);
+    async function getnday(ticker: string) {
+        const res = await fetch(`/api/ndayreport?ticker=${encodeURIComponent(ticker)}&n=${encodeURIComponent(N)}`);
 
         if (!res.ok) {
             throw new Error("Failed to fetch info");
@@ -29,7 +30,7 @@ function PriceReport({ticker} : {ticker: string}) {
         const data: Array<PriceReportProps> = await res.json();
         setPriceReport(data);
     }
-    get5day(ticker)
+    getnday(ticker)
     }, [ticker])
 
     return (

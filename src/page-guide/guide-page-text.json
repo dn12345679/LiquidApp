@@ -7,8 +7,8 @@
                 "article-id": 0,
                 "subarticle": "What is the purpose of this tool?",
                 "content": [
-                    "The purpose of this tool is to create examples of visualizations and tools that are commonly used to help traders analyze performance of a certain stock.",
-                    "In this tool, you will find a variety of customizable options to view information about certain stocks, which include simple 5-day summaries, to article sentiment analyses.",
+                    "The purpose of this tool is to create examples of visualizations and tools that are commonly used to help traders analyze performance of a certain financial instrument.",
+                    "In this tool, you will find a variety of customizable options to view information about certain stocks and securities, which include simple 5-day summaries, to article sentiment analyses.",
                     "This tool is not responsible for decisions made by the user, and it only serves to visualize existing information."
                 ]
             },
@@ -16,30 +16,94 @@
                 "article-id": 1,
                 "subarticle": "Related Tools",
                 "content": [
-                    "The core of this website is based on yFinance and BeautifulSoup4. Supplementary content listed here. Example test example test setetste et etetsetse tset;asef",
-                    "I guess theres stuff here"
+                    "The core of this website is based on yFinance. Supplementary content and tools are listed below.",
+                    "Framer Motion is a production-grade animation library that I used to create smooth transitions and animations throughout the website.",
+                    "React Chartjs 2 is a React wrapper for Chart.js, which is a popular JavaScript charting library that I used to create the various graphs and visualizations in this tool."
                 ]
             }
         ]
     },
     {
         "article-main-id": 1,
-        "main-article": "Graph Options",
+        "main-article": "Visualization Options",
         "sub-articles": [
             {
                 "article-id": 0,
-                "subarticle": "5 Day Chart",
+                "subarticle": "Title Card",
                 "content": [
-                    "This plot contains information ",
-                    "isnt this kind of cool?"
+                    "This is a very lightweight visualization that simply displays information relating to the symbol on demand.",
+                    "Content to display include: ",
+                    "- Current Price",
+                    "- Date and Time fetched",
+                    "- Current Price (Static)",
+                    "- Change since previous close",
+                    "- Percent change since previous close"
                 ]
             },
             {
                 "article-id": 1, 
-                "subarticle": "Stock change graph",
+                "subarticle": "5 Day Price report",
                 "content": [
-                    "You can see relative change as well as overall change here",
-                    "Thats kinda useful"
+                    "This visualization displays the various price points, and volume of the symbol over the past 5 days.",
+                    "Content to display include: ",
+                    "- Opening Price",
+                    "- Closing Price",
+                    "- High Price",
+                    "- Low Price",
+                    "- Volume Traded"
+                ]
+            },
+            {
+                "article-id": 2,
+                "subarticle": "N=14 Day Multi-Type Graph",
+                "content": [
+                    "This visualization displays the various price points, and the average price point, plotted over a combination of lines and bar plots. In the future, the change N can be updated to account for up to the lifespan of a given symbol.",
+                    "Content to display include: ",
+                    "- Opening Price (Line)",
+                    "- Closing Price (Line)",
+                    "- High Price (Line)",
+                    "- Low Price (Line)",
+                    "- Average Price (Bar)"
+                ]
+            },
+            {
+                "article-id": 3,
+                "subarticle": "Previous Quarter Financials",
+                "content": [
+                    "This table displays the major financial reports from the previous quarter of a given financial instrument. ",
+                    "Content to display include major categories such as: ",
+                    "- Total Revenue", 
+                    "- Cost of Revenue",
+                    "- Gross Profits", 
+                    "- Operating Expense",
+                    "- Operating Income", 
+                    "- Net Income"
+                ]
+            },
+            {
+                "article-id": 4, 
+                "subarticle": "Sentiment Analysis", 
+                "content": [
+                    "This chart uses the VADER lexicon and rule-based sentiment analysis from Python's NLTK along with scraped articles from Yahoo Finance with BeautifulSoup to form a general sense of polarity around the stock. Analysis is performed on the sentential level, where each token corresponds to a sentence seperated by periods (.)",
+                    "Information:", 
+                    "- Legend: Color codes up to the 5 selected articles that are found.",
+                    "- X-axis: Progression or portion along the article. Highlights progressing sentiment.",
+                    "- Y-axis: Polarity Score, Positive values indicate positive sentiment, Negative values indicate negative sentiment. Generally values within +/- 0.05 are considered largely neutral.", 
+                    "- Radius: Sentence length",
+                    ""
+                ]
+            }
+        ]
+    }, 
+    {
+        "article-main-id": 2,
+        "main-article": "Additional Information", 
+        "sub-articles": [
+            {
+                "article-id": 0, 
+                "subarticle": "Public repository",
+                "content": [
+                    "https://github.com/dn12345679/LiquidApp"
                 ]
             }
         ]
