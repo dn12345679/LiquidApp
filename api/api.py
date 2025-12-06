@@ -1,5 +1,5 @@
 import time 
-from flask import request, jsonify, Flask, current_app
+from flask import request, jsonify, Flask, current_app, send_from_directory
 from flask_cors import CORS
 
 import json
@@ -12,7 +12,7 @@ from datetime import datetime
 import os
 from pathlib import Path
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)
 
 model = 'Simple'
@@ -20,12 +20,15 @@ csv_path = "../api/nasdaqlisted.txt"
 validate_table = pd.read_csv(csv_path, delimiter="|")
 # d
 
-# for validating input
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve(path): 
+    file_path = Path(app.static_folder) / Path(path) 
+    if path != "" and file_path.exists():
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, "index.html")
 
 
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
 
 
 @app.route('/api/run')
@@ -61,7 +64,7 @@ def validate_ticker():
     
     matches = result.fillna('').to_dict('records')
     return jsonify({
-        "valid": False, 
+        "valid": True, 
         "matches": matches
     }), 200
 
@@ -158,7 +161,7 @@ def get_5_day_report():
     return jsonify(arr_5day), 200  
 
 @app.route('/api/description')
-def get_description(ticker):
+def get_description():
     '''
     Given a valid input string ticker, returns a JSON containing
         information to be displayed on a React description card
@@ -197,3 +200,5 @@ def get_financials():
     df = analysis.get_financials(ticker)
     return jsonify(df)
     
+if __name__ == '__main__':
+    app.run(host="0.0.0.0")

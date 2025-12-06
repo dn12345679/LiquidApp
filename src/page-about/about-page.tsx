@@ -105,9 +105,9 @@ function AboutPage(){
     return () => clearInterval(interval);
   }, [isPageFocused]);
   const imageContent = [
-    ["./src/assets/5day.png","./src/assets/sentimentanal.png"],
-    ["./src/assets/pricereport.png"],
-    ["./src/assets/title.png", "./src/assets/searchmodels.png"]
+    ["/5day.png","/sentimentanal.png"],
+    ["/pricereport.png"],
+    ["/title.png", "/searchmodels.png"]
   ]
   const customScale = [
     [1, 1.3],

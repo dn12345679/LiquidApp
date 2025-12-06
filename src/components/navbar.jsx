@@ -1,5 +1,4 @@
 import Logo from "./logo";
-import icon from "../assets/Hamburger_icon.svg.png";
 import { useState } from "react";
 import {AnimatePresence, motion } from "framer-motion"
 

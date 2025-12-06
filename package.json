@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "api:linux": "cd api && venv/bin/flask run --no-debugger",
-    "api:windows": "cd api && .venv\\Scripts\\flask run --no-debugger"
+    "api:windows": "cd api && .venv\\Scripts\\flask run --no-debugger",
+    "api:local": "cd api && flask run --no-debugger --host=0.0.0.0"
   },
   "dependencies": {
     "@cubejs-client/core": "^0.31.0",
