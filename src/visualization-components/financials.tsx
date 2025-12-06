@@ -11,14 +11,12 @@ interface FinancialData {
     "Gross Profit": number, 
     "Operating Expense": number, 
     "Operating Income": number, 
-    "Interest Expense": number, 
-    "EBITDA": number, 
     "Net Income": number
 }
 
 function Financials({ticker} :{ticker: string}) {
     const [financials, setFinancials] = useState<Array<FinancialData> | null>(null);
-    const interest = ['Total Revenue', 'Cost Of Revenue', 'Gross Profit', 'Operating Expense', 'Operating Income','Interest Expense','EBITDA', 'Net Income']
+    const interest = ['Total Revenue', 'Cost Of Revenue', 'Gross Profit', 'Operating Expense', 'Operating Income', 'Net Income']
     useEffect(() => {
         async function getFinancials(ticker: string) {
             const res = await fetch(`/api/financials?ticker=${encodeURIComponent(ticker)}`)
@@ -41,17 +39,18 @@ function Financials({ticker} :{ticker: string}) {
                 <motion.div className = "flex flex-col w-full h-full items-center justify-between font-istok text-[2vh]">
                     <div className="pt-5 text-[3vh]"> Quarterly Financials, Most Recent</div>
                 {
-                    financials &&  
+                    financials ? 
                         interest.map((value, i) => (
                             <div key={i} className="flex flex-row w-full justify-between"> 
                                 <div className="p-5">
                                     {interest[i]}
                                 </div>
                                 <div className="p-5">
-                                    ${financials![i][interest[i] as keyof FinancialData]} 
+                                    ${financials![i][interest[i] as keyof FinancialData] || "N/A"} 
                                 </div>
                             </div>
-                        ))
+                        )) : 
+                        <div className="font-istok text-[2vh]"> Not reported for Previous Quarter</div>
                 }
                 </motion.div>
 

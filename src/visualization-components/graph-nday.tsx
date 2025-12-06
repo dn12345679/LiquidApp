@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, number, useScroll, useTransform } from 'framer-motion'
 import '../App.css'
 import './vcomp.css'
 import { ReactNode,useState,  useEffect } from 'react';
@@ -9,25 +9,31 @@ import { label, p } from 'motion/react-client';
 // https://github.com/reactchartjs/react-chartjs-2/blob/master/sandboxes/bar/vertical/App.tsx
 import {
   Chart as ChartJS,
-  CategoryScale,
   LinearScale,
+  CategoryScale,
   BarElement,
-  Title,
-  Tooltip,
+  PointElement,
+  LineElement,
   Legend,
-  scales,
-  Ticks,
+  Tooltip,
+  Title,
+  LineController,
+  BarController,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { data } from 'react-router-dom';
+import { Chart } from 'react-chartjs-2';
+
 
 ChartJS.register(
-  CategoryScale,
   LinearScale,
+  CategoryScale,
   BarElement,
-  Title,
+  PointElement,
+  LineElement,
+  Legend,
   Tooltip,
-  Legend
+  Title,
+  LineController,
+  BarController
 );
 
 
@@ -42,11 +48,14 @@ interface PriceReportProps {
     Date?: string; // date in a year
 }
 
-function Graph5Day({ticker}: {ticker: string}) {
+function GraphNDay({ticker}: {ticker: string}) {
      const [priceReport, setPriceReport] = useState<Array<PriceReportProps> | null>(null);
+
+    const N = 14; 
+
     useEffect(() => {
     async function get5day(ticker: string) {
-        const res = await fetch(`/api/fivedayreport?ticker=${encodeURIComponent(ticker)}`);
+        const res = await fetch(`/api/ndayreport?ticker=${encodeURIComponent(ticker)}&n=${encodeURIComponent(N)}`);
 
         if (!res.ok) {
             throw new Error("Failed to fetch info");
@@ -72,7 +81,7 @@ function Graph5Day({ticker}: {ticker: string}) {
             },
             title: {
                 display: true,
-                text: '5-Day Price Movement',
+                text: `$${ticker} ${N} Day Price Report`,
                 font: {
                     size: 40,
                 }
@@ -110,24 +119,47 @@ function Graph5Day({ticker}: {ticker: string}) {
         labels,
         datasets: [
         {
+            type: 'line' as const,
             label: 'Open Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.Open || '0')) : [],
             backgroundColor: ColorblindSafePaletteTrue[0],
+            pointRadius: 5,
+            pointHoverRadius: 3,
         },
+
         {
+            type: 'line' as const, 
             label: 'Close Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.Close || '0')) : [],
             backgroundColor: ColorblindSafePaletteTrue[1],
+            pointRadius: 5,
+            pointHoverRadius: 3,
         },
+
         {
+            type: 'line' as const, 
             label: 'High Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.High || '0')) : [],
             backgroundColor: ColorblindSafePaletteTrue[2],
+            pointRadius: 5,
+            pointHoverRadius: 3,
         },
+
         {
+            type: 'line' as const, 
             label: 'Low Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.Low || '0')) : [],
             backgroundColor: ColorblindSafePaletteTrue[3],
+            pointRadius: 7,
+            pointHoverRadius: 3,
+        },
+        {
+            type: 'bar' as const, 
+            label: 'Average Price',
+            data: priceReport ? priceReport.map(entry => parseFloat( String((Number(entry.Low) + Number(entry.High) + Number(entry.Open) + Number(entry.Close))/4) || '0')) : [],
+            backgroundColor: ColorblindSafePaletteTrue[4],
+            
+            
         }
         ],
     } 
@@ -139,11 +171,11 @@ function Graph5Day({ticker}: {ticker: string}) {
             onMouseLeave={(e) => {
                 {CardReset(e)}
             }}>
-                <Bar options={options} data={data} className='m-10 p-10'/>
+                <Chart type={'bar'} options={options} data={data} className='m-10 p-10'/>
 
         </motion.div>
         
     );
 }
 
-export default Graph5Day;
+export default GraphNDay;

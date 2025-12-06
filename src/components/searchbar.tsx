@@ -9,7 +9,7 @@ import {motion} from "framer-motion"
 
 
 // !important: make sure to have onSubmit implemented in parent script
-function SearchBar({onSubmit, hintString = "Enter a Stock Ticker Symbol, ie: AMZN"} : {onSubmit: any, hintString: string}){
+function SearchBar({onSubmit, hintString = "Enter a NASDAQ Ticker Symbol, ie: AMZN"} : {onSubmit: any, hintString: string}){
     const [searchQuery, setSearchQuery] = useState("");
     const [isValid, setIsValid] = useState(false);
     const [isValidating, setIsValidating] = useState(false);
@@ -59,7 +59,11 @@ function SearchBar({onSubmit, hintString = "Enter a Stock Ticker Symbol, ie: AMZ
             const result = await getValidation(searchQuery);
             if (result.valid ) {
                 
+                
                 onSubmit(searchQuery, model); // lift state
+                setSearchQuery("");
+                setIsValidating(false);
+                setIsValid(true);
             }
             else {
                 console.log("Nope!");

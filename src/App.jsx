@@ -96,6 +96,7 @@ function App() {
   function handleSearchSubmit(query = "AAPL", model="Simple"){
   
     // DONT FORGET TO HANDLE VALIDATION OF STOCK SEARCH
+    setCurrentPage(0);
     navigate('/page-visualinfo', {state: {id:query, model:model}});
 
   }

@@ -98,7 +98,7 @@ function TitleCard({ticker} : {ticker: string}) {
             }}>
                 <div className='flex flex-wrap gap-1 p-[10%] justify-between truncate'>
                     <div className='title-company text-[300%]'>
-                        <ParallaxText baseVelocity={-0.5}>
+                        <ParallaxText baseVelocity={-2}>
                             {titlecard?.Name}
                         </ParallaxText>
                         
@@ -112,6 +112,9 @@ function TitleCard({ticker} : {ticker: string}) {
                     <div className='w-full border-2 m-1' />
                     <p className='title-date text-[2vw]'>
                         ${titlecard?.Price}
+                    </p>
+                    <p className='title-ticker text-[2vw]'>
+                        ${ticker}
                     </p>
 
                     <div className = 'w-full p-0'/>

@@ -23,7 +23,7 @@ function List({title, chapters, selected, onSelect}: {title: String, chapters: S
 
     return (
         <motion.div>
-            <div className="text-white h-fit w-fit text-start  font-istok tracking-[10%]
+            <div className="text-white h-fit w-fit text-start  font-istok tracking-[10%] mask-b-from-80% mask-b-to-110%
                             ">
                 <div>
                     <div className="text-[2rem]">{title}</div>
@@ -53,11 +53,11 @@ function List({title, chapters, selected, onSelect}: {title: String, chapters: S
 function MainTextPanel({text}: {text: String[] | undefined}) {
     return (
         <motion.div className="flex items-start justify-start overflow-y-auto mask-b-from-50% mask-b-to-110%">
-            <div className="max-w-[70%] pb-[5vh] max-h-[60vh]">
+            <div className="max-w-[70%] pb-[5vh] max-h-[60vh] font-istok tracking-[10%]">
                 {
                     
                     text!.map((t,i) => (
-                        <motion.div key={i} layoutRoot initial={{opacity: 0.0}} animate={{opacity: 1.0}} transition={{ease: "linear", layout: {duration: 0.3}}} className="text-[3vmin] text-left font-istok pb-20">{t}</motion.div>
+                        <motion.div key={i} layoutRoot initial={{opacity: 0.0}} animate={{opacity: 1.0}} transition={{ease: "linear", layout: {duration: 0.3}}} className="text-[2vmin] text-left font-istok pb-20">{t}</motion.div>
                     ))
                     
                 }
@@ -69,7 +69,7 @@ function MainTextPanel({text}: {text: String[] | undefined}) {
 function TitleTextPanel({text}: {text: String}) {
     return (
         <div className="border-b">
-            <p className="font-istok tracking-widest text-[3rem] text-start">
+            <p className="font-istok tracking-[20%] text-[4vh] text-start">
                 {text}
             </p>
         </div>

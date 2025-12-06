@@ -7,11 +7,9 @@ import analysis
 
 
 
-ticker = "MSF"
+ticker = "CA"
 
-df = analysis.get_sentiment_df(ticker, 5)
-sent = analysis.analysis_vaders(df)
+stock = yf.Ticker(ticker)
+info = stock.quarterly_financials
 
-
-print(df.head())
-print(sent)
+print(info)
