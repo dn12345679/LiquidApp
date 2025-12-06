@@ -92,14 +92,24 @@ def get_5day_history(ticker):
     return five_day_hist
 
 
+def get_financials(ticker):
+    '''
+    Given a stock ticker, returns a dictionary that subsets just the most interesting values 
+        of the quarterly financials (8/49 total), 
+    Returns an array of dictionary elements with key: Title, value: Value <-- wow thanks
+    '''
+    interest = ['Total Revenue', 'Cost Of Revenue', 'Gross Profit', 'Operating Expense', 'Operating Income','Interest Expense','EBITDA', 'Net Income']
+    stock = yf.Ticker(ticker)
+    info = stock.quarterly_financials
+    values_of_interest = []
+    for (i, val) in enumerate(interest):
+        values_of_interest.append({interest[i] : info.loc[val][0]})
+    return values_of_interest
+
 
 def analysis_vaders(df):
     '''
-    Given a 'sentiment data frame' df with the following columns:
-        [data, url, ID, ticker]
 
-    Returns a dictionary containing:
-        {ID: {'label', 'score'}}
         
     Using NLTK VADERS (lightweight low CPu low ram)
     '''
@@ -113,6 +123,7 @@ def analysis_vaders(df):
             text = row['data']
             article = row['title']
             articleID = row['article_num']
+            sentenceID = row['ID']
             
             # returns score (-1 to 1)
             scores = sia.polarity_scores(text) # returns {'label': 'string', 'score': float}
@@ -122,7 +133,8 @@ def analysis_vaders(df):
                 'label': label,
                 'score': scores['compound'],
                 'article': article,
-                'articleID': articleID
+                'articleID': articleID, 
+                'sentenceID': sentenceID
             }
             
         except RuntimeError as e:
@@ -160,7 +172,7 @@ def get_sentiment_df(ticker, n):
                     'ID': sentence_id, 
                     'ticker': ticker, 
                     'article_num': i,
-                    'title': title
+                    'title': title, 
                 }
             data_to_be_df.append(row_data) 
 

@@ -189,3 +189,11 @@ def get_sentiment():
     sent_2list = [v for k, v in sorted(sent.items(), key = lambda kv: int(kv[0]))]
     
     return jsonify(sent_2list), 200
+
+
+@app.route('/api/financials')
+def get_financials():
+    ticker = request.args.get("ticker")
+    df = analysis.get_financials(ticker)
+    return jsonify(df)
+    

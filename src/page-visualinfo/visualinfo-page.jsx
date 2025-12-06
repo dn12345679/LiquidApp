@@ -4,7 +4,7 @@ import { Navbar, Logo, SearchBar, CircleBackground } from '../components';
 import { Link, useLocation } from 'react-router-dom';
 import { useParams, Navigate, useNavigate, Route } from 'react-router-dom';
 
-import {TitleCard, PriceReport, Graph5Day, SentimentVisualization} from '../visualization-components/index'
+import {TitleCard, PriceReport, Graph5Day, SentimentVisualization, Financials} from '../visualization-components/index'
 
 import '../App.css'
 
@@ -27,19 +27,22 @@ function DisplayModelSimple({ticker}) {
     }
 
     return(
-        <section id="Simple-Model-Components" className="absolute">
+        <section id="Simple-Model-Components" className = 'relative w-full'>
             <motion.div
-                className="flex flex-row flex-wrap max-w-[100vw] pb-[15vh]"
+                className="grid grid-cols-3 grid-rows-2 max-w-[100vw] pb-[15vh]"
                 variants = {containerVariants}
                 initial="hidden" 
                 animate="show" 
                 key={`simple-model-${ticker}`}
                 >
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                    <motion.div variants={itemVariants} layout className='pl-5 pt-5 pb-10 col-span-1 row-span-1'>
                         <TitleCard ticker={ticker}/>
                     </motion.div>
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
+                    <motion.div variants={itemVariants} layout className='p-5 pb-10 col-span-2 row-span-2'>
                         <PriceReport ticker={ticker}/>
+                    </motion.div>
+                    <motion.div variants={itemVariants} layout className='pl-5 col-span-1 row-span-1'>
+                        <Financials ticker={ticker}/>
                     </motion.div>
                     
             </motion.div>
@@ -56,7 +59,7 @@ function DisplayModelStandard({ticker}) {
     }
 
     return(
-        <section id="Standard-Model-Components" className="absolute">
+        <section id="Standard-Model-Components" className="relative w-full">
             <motion.div
                 className="flex flex-row flex-wrap max-w-[100vw] pb-[15vh]"
                 variants = {containerVariants}
@@ -64,12 +67,7 @@ function DisplayModelStandard({ticker}) {
                 animate="show" 
                 key={`standard-model-${ticker}`}
                 >
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
-                        <TitleCard ticker={ticker}/>
-                    </motion.div>
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
-                        <PriceReport ticker={ticker}/>
-                    </motion.div>
+                    <DisplayModelSimple ticker={ticker}/>
                     <motion.div variants={itemVariants} layout >
                         <Graph5Day  ticker={ticker}/>
                     </motion.div>
@@ -96,15 +94,7 @@ function DisplayModelAdvanced({ticker}) {
                 animate="show" 
                 key={`advanced-model-${ticker}`}
                 >
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
-                        <TitleCard ticker={ticker}/>
-                    </motion.div>
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
-                        <PriceReport ticker={ticker}/>
-                    </motion.div>
-                    <motion.div variants={itemVariants} layout className='p-5 pb-10'>
-                        <Graph5Day  ticker={ticker}/>
-                    </motion.div>
+                    <DisplayModelStandard ticker={ticker}/>
                     <motion.div variants={itemVariants} layout className='p-5 pb-10'>
                         <SentimentVisualization ticker={ticker}/>
                     </motion.div>

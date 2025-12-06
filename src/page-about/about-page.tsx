@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SearchBar } from "../components"
 import {
   motion,
@@ -11,6 +11,7 @@ import {
   wrap,
   AnimatePresence
 } from "framer-motion";
+import { image } from "motion/react-client";
 
 
 interface ParallaxProps {
@@ -68,10 +69,61 @@ function caption({text}: {text: string}) {
   )
 }
 
+function PeriodicNumber(min: number, curr: number, max: number) {
+  if (curr + 1 >= max) {
+    curr = min;
+    return curr;
+  }
+  return curr + 1;
+}
+
 function AboutPage(){
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPageFocused, setIsPageFocused] = useState(true);
   const textContent = ["Graphics", "Analysis", "Current"]
-  const imageContent = ["./src/assets/example_image.jpg", "./src/assets/example_image2.jpg", "./src/assets/example_image3.webp"]
+
+  useEffect(() => {
+    const handleFocus = () => setIsPageFocused(true);
+    const handleBlur = () => setIsPageFocused(false);
+
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isPageFocused) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => PeriodicNumber(0, prev, imageContent.length));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isPageFocused]);
+  const imageContent = [
+    ["./src/assets/5day.png","./src/assets/sentimentanal.png"],
+    ["./src/assets/pricereport.png"],
+    ["./src/assets/title.png", "./src/assets/searchmodels.png"]
+  ]
+  const customScale = [
+    [1, 1.3],
+    [2],
+    [2.0, 2.0]
+  ]
+  const customOpacities = [
+    [0.7, 0.9],
+    [0.9],
+    [0.7, 0.9]
+  ]
+  const text = [
+    "Explore various visualizations using live data from Yahoo Finance!", 
+    "Fetch current data for the week displayed on a formatted table!",
+    "Clean up-to-date information, with various options for models!"
+  ]
 
     return(
         <div className="relative h-screen w-screen z-[-1] flex-row flex justify-start items-start">
@@ -83,8 +135,8 @@ function AboutPage(){
                 }
                 
             </div>
-            <motion.section className="absolute h-screen w-screen flex items-center justify-center">
-              <motion.ul className="scale-[0.5] h-fit w-fit mask-b-from-60% mask-b-to-100% drop-shadow-zinc-950">
+            <motion.section className="h-screen w-screen flex items-center justify-center">
+              <motion.ul className="scale-[0.7] h-fit w-fit mask-b-from-60% mask-b-to-100% drop-shadow-zinc-950">
                 {
                   imageContent.map((item, i) => (
                     currentSlide === i && 
@@ -94,15 +146,24 @@ function AboutPage(){
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -10, opacity: 0 }}
-                        transition={{ duration: 0.2 }}>
-                        <img src={item} alt="Example" />
+                        transition={{ duration: 0.2 }} 
+                        className="h-screen w-screen flex flex-col">
+                          
+                        {imageContent[currentSlide].map((item, j) => (
+                          <img key = {j} src={item} alt="Example" className={`absolute inline left-0 drop-shadow-2xl`}
+                          style={{transform: `translateX(${j * 30}vw) translateY(${j * 20}vh)`, scale: `${customScale[i][j]}`, opacity: customOpacities[i][j]}}/>
+                        ))}
+                        
+
                       </motion.li>    
                     </AnimatePresence>
                 
                   ))
                 }
               </motion.ul>
+              <div className="absolute inline bottom-[5vh] font-istok text-[5vh]"> {text[currentSlide]} </div>
             </motion.section>
+            
             <motion.button>
               
             </motion.button>

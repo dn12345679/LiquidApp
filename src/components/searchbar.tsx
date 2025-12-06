@@ -9,7 +9,7 @@ import {motion} from "framer-motion"
 
 
 // !important: make sure to have onSubmit implemented in parent script
-function SearchBar({onSubmit, hintString = "What are you interested in today?"} : {onSubmit: any, hintString: string}){
+function SearchBar({onSubmit, hintString = "Enter a Stock Ticker Symbol, ie: AMZN"} : {onSubmit: any, hintString: string}){
     const [searchQuery, setSearchQuery] = useState("");
     const [isValid, setIsValid] = useState(false);
     const [isValidating, setIsValidating] = useState(false);
@@ -94,10 +94,10 @@ function SearchBar({onSubmit, hintString = "What are you interested in today?"} 
                     </label>
                     
                     <select onChange={handleModelChange} className="text-[1.0vw] font-istok text-black bg-transparent">
-                        <option value="Simple" disabled selected className='text-[1.0vw] font-istok text-black'> Model </option>
+                        <option value="Standard" disabled defaultValue={"Standard"} className='text-[1.0vw] font-istok text-black'> Model </option>
                         {models.map((mod, i) => (
-                            <option key={mod.value} value={mod.value} className='text-[1.0vw] '>
-                                <p className='font-istok text-black'> {mod.label}</p>
+                            <option key={mod.value} value={mod.value} className='text-[1.0vw] font-istok text-black'>
+                                {mod.label}
                             </option>
                         ))}
                     </select>

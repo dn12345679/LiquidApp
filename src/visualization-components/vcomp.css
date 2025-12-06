@@ -2,20 +2,19 @@
 .box-simple {
     background-color: color-mix(in oklab, var(--color-white) 22%, transparent);
     border-style: var(--tw-border-style);
-    border-width: 2px;
+
     border-radius: 20px;
-    border-color: var(--color-green-300);
+    
     transition: all 0.3s ease;
-    transform-style: preserve-3d;
-    perspective: 1000px;
+
 }
 
 .box-standard {
     background-color: color-mix(in oklab, var(--color-white) 80%, transparent);
     border-style: var(--tw-border-style);
-    border-width: 2px;
+
     border-radius: 20px;
-    border-color: var(--color-yellow-300);
+
     transition: all 0.3s ease;
 
 }
@@ -23,9 +22,9 @@
 .box-advanced {
     background-color: color-mix(in oklab, var(--color-white) 70%, transparent);
     border-style: var(--tw-border-style);
-    border-width: 2px;
+
     border-radius: 20px;
-    border-color: var(--color-red-300);
+
     transition: all 0.3s ease;
 
 }

@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import '../App.css'
 import './vcomp.css'
 import { ReactNode,useState,  useEffect } from 'react';
-import { CardSlide, CardReset } from '.';
+import { CardSlide, CardReset, ColorblindSafePaletteTrue } from '.';
 import { label, p } from 'motion/react-client';
 
 
@@ -64,30 +64,40 @@ function Graph5Day({ticker}: {ticker: string}) {
                 position: 'top' as const,
                 labels: {
                     font: {
-                        size: 16,
+                        size: 20,
                     },
+                    padding: 20
                 },
+
             },
             title: {
                 display: true,
                 text: '5-Day Price Movement',
                 font: {
-                    size: 20,
+                    size: 40,
                 }
             },
+            tooltip: {
+                titleFont: {
+                    size: 30,
+                }, 
+                bodyFont: {
+                    size: 30
+                }
+            }
         },
         scales: {
             x: {
                 ticks: {
                     font: {
-                        size: 14,
+                        size: 20,
                     },
                 },
             },
             y: {
                 ticks: {
                     font: {
-                        size: 14,
+                        size: 30,
                     },
                 },
             },
@@ -102,22 +112,22 @@ function Graph5Day({ticker}: {ticker: string}) {
         {
             label: 'Open Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.Open || '0')) : [],
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            backgroundColor: ColorblindSafePaletteTrue[0],
         },
         {
             label: 'Close Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.Close || '0')) : [],
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
+            backgroundColor: ColorblindSafePaletteTrue[1],
         },
         {
             label: 'High Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.High || '0')) : [],
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            backgroundColor: ColorblindSafePaletteTrue[2],
         },
         {
             label: 'Low Price',
             data: priceReport ? priceReport.map(entry => parseFloat(entry.Low || '0')) : [],
-            backgroundColor: 'rgba(255, 206, 86, 0.5)',
+            backgroundColor: ColorblindSafePaletteTrue[3],
         }
         ],
     } 
@@ -129,7 +139,7 @@ function Graph5Day({ticker}: {ticker: string}) {
             onMouseLeave={(e) => {
                 {CardReset(e)}
             }}>
-                <Bar options={options} data={data} className='m-10'/>
+                <Bar options={options} data={data} className='m-10 p-10'/>
 
         </motion.div>
         

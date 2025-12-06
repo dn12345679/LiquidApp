@@ -27,8 +27,8 @@ function Navbar({currentSectionIndex, visible_tabs = [0, 1, 2]}) {
                                 exit={{opacity: 0, x: "-100vw"}}
                                 transition={{duration: 0.3}}
                                 className = "flex-1 pt-5">
-                                <ul id="navbar-link-text-route" className={`w-[50vw] h-full ml-[25vw] flex flex-col md:flex-row justify-around items-center absolute rounded-3xl drop-shadow-2xl
-                                        ${currentSectionIndex === 0 ? "bg-linear-to-r from-[#b9a071]/50 to-[#b9a071]/50" : "bg-linear-to-r from-[#776448]/50 to-[#574c3a]/50"}  `}>
+                                <ul id="navbar-link-text-route" className={`w-[50vw] h-full ml-[25vw] flex flex-col md:flex-row justify-around items-center absolute rounded-3xl drop-shadow-2xl transition-all duration-500
+                                        ${currentSectionIndex === 0 ? "bg-[#b9a071]/50" : currentSectionIndex === 1 ? "bg-[#776448]/50" : "bg-transparent"}  `}>
                                     
                                     {
                                         visible_tabs.includes(0) && <a href="#homepage-section-2" className={`navbar-text underline-effect ${currentSectionIndex !== 0 ? "text-white after:bg-white" : "text-black after:bg-black"}`}>

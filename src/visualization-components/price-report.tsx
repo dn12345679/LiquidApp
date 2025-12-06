@@ -52,22 +52,22 @@ function PriceReport({ticker} : {ticker: string}) {
                         <tr className='w-full flex flex-row justify-between pb-[7vh]'>
                             <td className='font-bold px-4 w-1/6'>Open</td>
                             {priceReport && priceReport.map((entry, index) => (
-                                <td className="px-8 w-1/6 text-[2vh]" key={index}> {entry.Open} </td>))}
+                                <td className="px-8 w-1/6 text-[2vh]" key={index}> ${entry.Open} </td>))}
                         </tr>
                         <tr className='w-full flex flex-row justify-between pb-[7vh]'>
                             <td className='font-bold px-4 w-1/6'>Close</td>
                             {priceReport && priceReport.map((entry, index) => (
-                                <td className="px-8 w-1/6 text-[2vh]" key={index}> {entry.Close} </td>))}
+                                <td className="px-8 w-1/6 text-[2vh]" key={index}> ${entry.Close} </td>))}
                         </tr>
                         <tr className='w-full flex flex-row justify-between pb-[7vh]'>
                             <td className='font-bold px-4 w-1/6'>High</td>
                             {priceReport && priceReport.map((entry, index) => (
-                                <td className="px-8 w-1/6 text-[2vh]" key={index}> {entry.High} </td>))}
+                                <td className="px-8 w-1/6 text-[2vh]" key={index}> ${entry.High} </td>))}
                         </tr>
                         <tr className='w-full flex flex-row justify-between pb-[7vh]'>
                             <td className='font-bold px-4 w-1/6'>Low</td>
                             {priceReport && priceReport.map((entry, index) => (     
-                            <td className="px-8 w-1/6 text-[2vh]" key={index}> {entry.Low} </td>))}
+                            <td className="px-8 w-1/6 text-[2vh]" key={index}> ${entry.Low} </td>))}
                         </tr>
                         <tr className='w-full flex flex-row justify-between'>
                             <td className='font-bold px-4 w-1/6'>Volume</td>

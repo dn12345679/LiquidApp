@@ -2,6 +2,7 @@ export {default as TitleCard} from "./title-card"
 export {default as PriceReport} from "./price-report"
 export {default as Graph5Day} from "./graph-5day"
 export {default as SentimentVisualization} from "./sentiment"
+export {default as Financials} from "./financials"
 
 
 
@@ -17,5 +18,7 @@ export function CardSlide(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 export function CardReset(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.currentTarget.style.transform = 'scale(1)';
 }
+
+export const ColorblindSafePaletteTrue = ["#d55e00", "#cc79a7", "#0072b2", "#f0e442", "#009e73"]
 
 

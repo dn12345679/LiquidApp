@@ -108,8 +108,9 @@ function App() {
       
       <div className="relative">
         
-        <div id="nav-main" className="h-fit w-fit">
+        <div id="nav-main" className="h-fit w-fit flex flex-col">
             <Navbar currentSectionIndex={currentPage}/>
+            <div className='w-fit h-fit font-istok text-[1vh] absolute left-34 top-34'>Note: site may be slow/have issues (intended for testing). Please be patient. Refresh if necessary</div>
         </div>
         
         <div id="section-content" >

@@ -8,7 +8,7 @@
                 "subarticle": "What is the purpose of this tool?",
                 "content": [
                     "The purpose of this tool is to create examples of visualizations and tools that are commonly used to help traders analyze performance of a certain stock.",
-                    "In this tool, you will find a variety of customizable options to view information about certain stocks that range from price histories to sentiment analyses and forecasting",
+                    "In this tool, you will find a variety of customizable options to view information about certain stocks, which include simple 5-day summaries, to article sentiment analyses.",
                     "This tool is not responsible for decisions made by the user, and it only serves to visualize existing information."
                 ]
             },

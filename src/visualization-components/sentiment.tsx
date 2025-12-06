@@ -2,41 +2,27 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import '../App.css'
 import './vcomp.css'
 import { ReactNode,useState,  useEffect } from 'react';
-import { CardSlide, CardReset } from '.';
-import { label, p } from 'motion/react-client';
+import { CardSlide, CardReset, ColorblindSafePaletteTrue } from '.';
+import { label, p, title } from 'motion/react-client';
 
 // https://github.com/reactchartjs/react-chartjs-2/blob/master/sandboxes/chart/multitype/App.tsx
 import {
   Chart as ChartJS,
   LinearScale,
-  CategoryScale,
-  BarElement,
   PointElement,
-  LineElement,
-  Legend,
   Tooltip,
-  LineController,
-  BarController,
+  Legend,
 } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
+import { Bubble } from 'react-chartjs-2';
 
-ChartJS.register(
-  LinearScale,
-  CategoryScale,
-  BarElement,
-  PointElement,
-  LineElement,
-  Legend,
-  Tooltip,
-  LineController,
-  BarController
-);
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 interface SentimentProps {
     label?: string; 
-    score?: string;
+    score?: number;
     article: string;
     articleID?: number;
+    sentenceID: number;
 }
 
 function getUniqueTitleFromJSON(data : Array<SentimentProps>) {
@@ -52,6 +38,7 @@ function getUniqueTitleFromJSON(data : Array<SentimentProps>) {
 
 function SentimentVisualization({ticker}: {ticker: string}) {
     const [sentimentData, setSentimentData] = useState<Array<SentimentProps> | null>(null);
+
     useEffect(() => {
 
         async function fetchSentimentData(ticker: string) {
@@ -65,16 +52,97 @@ function SentimentVisualization({ticker}: {ticker: string}) {
         fetchSentimentData(ticker).then(data => setSentimentData(data)).catch(error => console.error(error));
     }, [ticker])
 
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top' as const,
+                labels: {
+                    font: {
+                        size: 16,
+                    },
+                },
+            },
+            title: {
+                display: true,
+                text: 'Sentiment Analysis : $' + ticker + '   <= 5 inputs ' + sentimentData?.length + ' tokens',
+                font: {
+                    size: 40,
+                }
+            },
+            tooltip: {
+                titleFont: {
+                    size: 30,
+                }, 
+                bodyFont: {
+                    size: 20
+                }
+            }
+
+        },
+        scales: {
+            x: {
+                ticks: {
+                    font: {
+                        size: 20
+                    }
+                }, 
+                title: {
+                    display: true,
+                    text: 'Portion Position', 
+                    font: {
+                        size: 25
+                    }
+                }
+            }, 
+            y: {
+                ticks: {
+                    font: {
+                        size: 20
+                    }
+                }, 
+                title: {
+                    display: true, 
+                    text: 'Sentiment Score', 
+                    font: {
+                        size: 30
+                    }
+                }
+            }, 
+        }
+    }
+
+    const labels = sentimentData ? getUniqueTitleFromJSON(sentimentData) : []
+
+
+    const data = {
+        labels, 
+        
+        datasets : 
+            labels.map((label,i)  => {
+                const entries = sentimentData!.filter(e => e.article === label)
+                return {
+                    label: label, 
+                    data: entries.map(entry => ({
+                        y: Number(entry?.score ?? 0), 
+                        x: Number(1/(entry!.sentenceID+1)),
+                        r: Number(5 * entry!.label!.length),
+                    })),
+                    backgroundColor: ColorblindSafePaletteTrue[i], 
+                    border: 2
+                }
+                
+            })
+    }
+
     
     return (
-        <motion.div className='w-[60vw] h-[90vh] box-advanced font-istok text-black tracking-wider transition-all'onMouseMove={(e) => 
+        <motion.div className='w-[70vw] h-[70vh] p-10 box-advanced font-istok text-black tracking-wider transition-all'onMouseMove={(e) => 
                 {CardSlide(e)}}
             onMouseLeave={(e) => {
                 {CardReset(e)}
             }}>
-                {sentimentData && getUniqueTitleFromJSON(sentimentData).map((entry, index) => (
-                    <div key={index}> {entry} </div>
-                ))}
+                <Bubble options={options} data={data}></Bubble>
 
         </motion.div>
     );
